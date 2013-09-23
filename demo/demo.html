@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+    
+    <script src="../lib/polyfills.js"></script>
+    <script src="../lib/pixel.js"></script>
+    <script type="text/javascript">
+        
+        document.onreadystatechange = function () {
+            if (document.readyState == "complete") {
+                var P = new PixelJS();
+                var sprite = new P.Sprite();
+                sprite.engine = P;
+                
+                P.init({
+                    canvas: 'pixeljs'  
+                });
+                
+                sprite.load({ name: 'harvest_moon_char.png', transparencyKey: { r: 0, g: 132, b: 255 } }, function (sender) {
+                    var isGoingLeft,
+                        isGoingUp,
+                        isGoingRight,
+                        isGoingDown;
+                    
+                    P.on('keydown', function (keyCode) { 
+                        switch (keyCode) {
+                            case P.Keys.Left:
+                                console.log('Left');
+                                isGoingLeft = true;
+                                break;
+                                
+                            case P.Keys.Up:
+                                console.log('Up');
+                                isGoingUp = true;
+                                break;
+                                
+                            case P.Keys.Right:
+                                console.log('Right');
+                                isGoingRight = true;
+                                break;
+                                
+                            case P.Keys.Down:
+                                console.log('Down');
+                                isGoingDown = true;
+                                break;
+                        }
+                    });
+                    
+                    var speed = 0.02;
+                
+                    P.run(function (elapsedTime, timeSinceLastUpdate) {
+                        if (isGoingRight) {
+                            sprite.x += speed * timeSinceLastUpdate;
+                        }
+                        
+                        sprite.draw();
+                    }); 
+                });
+            }
+        }
+        
+    </script>
+</head>
+
+<body>
+    <canvas id="pixeljs" width="800" height="600" style="border: 1px black dotted; position: absolute; left: 50%; top: 50%; margin: -300px 0 0 -400px;">
+    </canvas>
+</body>
+</html>
