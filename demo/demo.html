@@ -51,11 +51,41 @@
                         }
                     });
                     
-                    var speed = 0.02;
+                    P.on('keyup', function (keyCode) { 
+                        switch (keyCode) {
+                            case P.Keys.Left:
+                                isGoingLeft = false;
+                                break;
+                                
+                            case P.Keys.Up:
+                                isGoingUp = false;
+                                break;
+                                
+                            case P.Keys.Right:
+                                isGoingRight = false;
+                                break;
+                                
+                            case P.Keys.Down:
+                                isGoingDown = false;
+                                break;
+                        }
+                    });
                 
                     P.run(function (elapsedTime, timeSinceLastUpdate) {
                         if (isGoingRight) {
-                            sprite.x += speed * timeSinceLastUpdate;
+                            sprite.moveRight();
+                        }
+                        
+                        if (isGoingLeft) {
+                            sprite.moveLeft();
+                        }
+                        
+                        if (isGoingUp) {
+                            sprite.moveUp();
+                        }
+                        
+                        if (isGoingDown) {
+                            sprite.moveDown();
                         }
                         
                         sprite.draw();
