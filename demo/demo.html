@@ -70,6 +70,16 @@
                             case P.Keys.Down:
                                 isGoingDown = false;
                                 break;
+                                
+                            case P.Keys.Space:
+                                if (sprite.isAnimating) {
+                                    sprite.stopAnimating();
+                                }
+                                else {
+                                    sprite.startAnimating();
+                                }
+                                sprite.visible = !sprite.visible;
+                                break;
                         }
                     });
                 
@@ -89,8 +99,6 @@
                         if (isGoingDown) {
                             sprite.moveDown();
                         }
-                        
-                        sprite.draw();
                     }); 
                 });
             }
