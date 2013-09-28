@@ -10,19 +10,20 @@
     <script src="../lib/polyfills.js"></script>
     <script src="../lib/pixel.js"></script>
     <script src="../lib/sprite.js"></script>
+    <script src="../lib/sprite_sheet.js"></script>
+    <script src="../lib/animated_sprite.js"></script>
     <script type="text/javascript">
         
         document.onreadystatechange = function () {
             if (document.readyState == "complete") {
                 var P = new PixelJS();
-                var sprite = new P.Sprite();
-                sprite.engine = P;
-                
+                var sprite = P.createAnimatedSprite();
+                sprite.animationSpeed = 0.125;
                 P.init({
                     canvas: 'pixeljs'  
                 });
                 
-                sprite.load({ name: 'harvest_moon_char.png', transparencyKey: { r: 0, g: 132, b: 255 } }, function (sender) {
+                sprite.load({ name: 'ryu.png', frames: 5 }, function (sender) {
                     var isGoingLeft,
                         isGoingUp,
                         isGoingRight,
@@ -72,7 +73,7 @@
                         }
                     });
                 
-                    P.run(function (elapsedTime, timeSinceLastUpdate) {
+                    P.run(function (elapsedTime, dt) {
                         if (isGoingRight) {
                             sprite.moveRight();
                         }
