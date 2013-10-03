@@ -13,6 +13,7 @@
     <script src="../lib/sprite_sheet.js"></script>
     <script src="../lib/animated_sprite.js"></script>
     <script src="../lib/tile.js"></script>
+    <script src="../lib/player.js"></script>
     <script type="text/javascript">
         
         document.onreadystatechange = function () {
@@ -23,96 +24,19 @@
                     canvas: 'pixeljs'  
                 });
             
-                var sprite = P.createAnimatedSprite();
-                sprite.animationSpeed = 0.125;
+                var player = P.createPlayer();
+                player.animationSpeed = 0.125;
                 
                 var background = P.createTile();
                 background.pos = { x: 0, y: 0 };
                 background.size = { width: 800, height: 600 };
                 background.load( { name: 'grass_generic.png' }, function () {
-                    
                     var fence = P.createTile();
                     fence.pos = { x: 0, y: 408 };
-                    
                     fence.size = { width: 200, height: 32 };
                     fence.load( { name: 'grass_fencing.png' }, function () {
-                    
-                        sprite.load({ name: 'ryu.png', frames: 5 }, function (sender) {
-                            var isGoingLeft,
-                                isGoingUp,
-                                isGoingRight,
-                                isGoingDown;
-                            
-                            P.on('keydown', function (keyCode) { 
-                                switch (keyCode) {
-                                    case P.Keys.Left:
-                                        console.log('Left');
-                                        isGoingLeft = true;
-                                        break;
-                                        
-                                    case P.Keys.Up:
-                                        console.log('Up');
-                                        isGoingUp = true;
-                                        break;
-                                        
-                                    case P.Keys.Right:
-                                        console.log('Right');
-                                        isGoingRight = true;
-                                        break;
-                                        
-                                    case P.Keys.Down:
-                                        console.log('Down');
-                                        isGoingDown = true;
-                                        break;
-                                }
-                            });
-                            
-                            P.on('keyup', function (keyCode) { 
-                                switch (keyCode) {
-                                    case P.Keys.Left:
-                                        isGoingLeft = false;
-                                        break;
-                                        
-                                    case P.Keys.Up:
-                                        isGoingUp = false;
-                                        break;
-                                        
-                                    case P.Keys.Right:
-                                        isGoingRight = false;
-                                        break;
-                                        
-                                    case P.Keys.Down:
-                                        isGoingDown = false;
-                                        break;
-                                        
-                                    case P.Keys.Space:
-                                        if (sprite.isAnimating) {
-                                            sprite.stopAnimating();
-                                        }
-                                        else {
-                                            sprite.startAnimating();
-                                        }
-                                        sprite.visible = !sprite.visible;
-                                        break;
-                                }
-                            });
-                        
-                            P.run(function (elapsedTime, dt) {
-                                if (isGoingRight) {
-                                    sprite.moveRight();
-                                }
-                                
-                                if (isGoingLeft) {
-                                    sprite.moveLeft();
-                                }
-                                
-                                if (isGoingUp) {
-                                    sprite.moveUp();
-                                }
-                                
-                                if (isGoingDown) {
-                                    sprite.moveDown();
-                                }
+                        player.load({ name: 'ryu.png', frames: 5 }, function (sender) {                        
+                            P.run(function (elapsedTime, dt) {                          
                             }); 
                         });
                     });
