@@ -14,6 +14,7 @@
     <script src="../lib/animated_sprite.js"></script>
     <script src="../lib/tile.js"></script>
     <script src="../lib/player.js"></script>
+    <script src="../lib/fps_counter.js"></script>
     <script type="text/javascript">
         
         document.onreadystatechange = function () {
@@ -40,6 +41,7 @@
                             player.movementSpeed = 0.125;
                             player.pos.x = 200;
                             player.pos.y = 300;
+                            
                             P.run(function (elapsedTime, dt) {                          
                             }); 
                         });
