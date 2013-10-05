@@ -35,7 +35,11 @@
                     fence.pos = { x: 0, y: 408 };
                     fence.size = { width: 200, height: 32 };
                     fence.load( { name: 'grass_fencing.png' }, function () {
-                        player.load({ name: 'ryu.png', frames: 5 }, function (sender) {                        
+                        player.load({ name: 'char112.png', frames: 3, rows: 4 }, function (sender) {     
+                            player.defaultFrame = 1;
+                            player.movementSpeed = 0.125;
+                            player.pos.x = 200;
+                            player.pos.y = 300;
                             P.run(function (elapsedTime, dt) {                          
                             }); 
                         });
