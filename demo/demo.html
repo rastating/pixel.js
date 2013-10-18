@@ -47,7 +47,14 @@
                             player.pos.x = 200;
                             player.pos.y = 300;
                             
-                            P.run(function (elapsedTime, dt) {     
+                            var backgroundDrawn = false;
+
+                            P.run(function (elapsedTime, dt) {   
+                                if (backgroundDrawn) {
+                                    backgroundLayer.requiresDraw = false;   
+                                }
+                                
+                                backgroundDrawn = true;
                             }); 
                         });
                     });
