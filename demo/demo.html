@@ -15,6 +15,7 @@
     <script src="../lib/tile.js"></script>
     <script src="../lib/player.js"></script>
     <script src="../lib/fps_counter.js"></script>
+    <script src="../lib/layer.js"></script>
     <script type="text/javascript">
         
         document.onreadystatechange = function () {
@@ -24,15 +25,19 @@
                 P.init({
                     canvas: 'pixeljs'  
                 });
-            
-                var player = P.createPlayer();
-                player.animationSpeed = 0.125;
                 
-                var background = P.createTile();
+                var backgroundLayer = P.createLayer("background");
+                
+                var background = backgroundLayer.createTile();
                 background.pos = { x: 0, y: 0 };
                 background.size = { width: 800, height: 600 };
                 background.load( { name: 'grass_generic.png' }, function () {
-                    var fence = P.createTile();
+                    var playerLayer = P.createLayer("players");
+                    var player = playerLayer.createPlayer();
+                    player.animationSpeed = 0.125;
+                    
+                    var fence = backgroundLayer.createTile();
+                    
                     fence.pos = { x: 0, y: 408 };
                     fence.size = { width: 200, height: 32 };
                     fence.load( { name: 'grass_fencing.png' }, function () {
@@ -42,7 +47,14 @@
                             player.pos.x = 200;
                             player.pos.y = 300;
                             
-                            P.run(function (elapsedTime, dt) {                          
+                            var backgroundDrawn = false;
+
+                            P.run(function (elapsedTime, dt) {   
+                                if (backgroundDrawn) {
+                                    backgroundLayer.requiresDraw = false;   
+                                }
+                                
+                                backgroundDrawn = true;
                             }); 
                         });
                     });
@@ -51,10 +63,19 @@
         }
         
     </script>
+    <style>
+        .scene-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="pixeljs" width="800" height="600" style="border: 1px black dotted; position: absolute; left: 50%; top: 50%; margin: -300px 0 0 -400px;">
-    </canvas>
+    <div id="pixel.js" style="border: 1px black dotted; position: absolute; left: 50%; top: 50%; margin: -300px 0 0 -400px;">
+        <canvas id="pixeljs" width="800" height="600" class="scene-layer">
+        </canvas>
+    </div>
 </body>
 </html>
