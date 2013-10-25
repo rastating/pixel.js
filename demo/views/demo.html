@@ -38,6 +38,7 @@
                 var player = new PixelJS.Player();
                 player.addToLayer(playerLayer);
                 player.pos = { x: 200, y: 300 };
+                player.size = { width: 32, height: 32 };
                 player.velocity = { x: 0.125, y: 0.125 };
                 player.asset = new PixelJS.AnimatedSprite();
                 player.asset.load({ 
@@ -48,6 +49,11 @@
                     defaultFrame: 1,
                     transparencyKey: { r: 0, g: 132, b: 255 } 
                 });
+                
+                playerLayer.registerCollidable(player);
+                player.onColide = function(collidable) {
+                    console.log("Colliding!");
+                };
                 
                 var grass = backgroundLayer.createEntity();
                 grass.pos = { x: 0, y: 0 };
@@ -62,14 +68,14 @@
                 
                 var fence = backgroundLayer.createEntity();
                 fence.pos = { x: 0, y: 408 };
+                fence.size = { width: 200, height: 32 };
                 fence.asset = new PixelJS.Tile();
                 fence.asset.load({
                     name: 'grass_fencing.png',
-                    size: {
-                        width: 200,
-                        height: 32
-                    }
+                    size: fence.size
                 });
+                
+                backgroundLayer.registerCollidable(fence);
                 
                 game.run(function (elapsedTime, dt) {   
                 });
