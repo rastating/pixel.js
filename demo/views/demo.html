@@ -42,7 +42,7 @@
                 player.size = { width: 32, height: 32 };
                 player.velocity = { x: 100, y: 100 };
                 player.asset = new PixelJS.AnimatedSprite();
-                player.asset.load({ 
+                player.asset.prepare({ 
                     name: 'char112.png', 
                     frames: 3, 
                     rows: 4,
@@ -59,34 +59,30 @@
                 var grass = backgroundLayer.createEntity();
                 grass.pos = { x: 0, y: 0 };
                 grass.asset = new PixelJS.Tile();
-                grass.asset.load({
+                grass.asset.prepare({
                     name: 'grass_generic.png',
                     size: { 
                         width: 800, 
                         height: 600 
-                    },
-                    callback: function () { 
-                        
-                        var fence = backgroundLayer.createEntity();
-                        fence.pos = { x: 0, y: 408 };
-                        fence.size = { width: 200, height: 32 };
-                        fence.asset = new PixelJS.Tile();
-                        fence.asset.load({
-                            name: 'grass_fencing.png',
-                            size: fence.size,
-                            callback: function () { 
-                                backgroundLayer.registerCollidable(fence);
-                                //while (!fence.asset._loaded || !grass.asset._loaded) {
-                                    backgroundLayer.static = true;
-                                //}
-                                
-                                game.run(function (elapsedTime, dt) {   
-                                });
-                            }
-                        });
                     }
                 });
                 
+                var fence = backgroundLayer.createEntity();
+                fence.pos = { x: 0, y: 408 };
+                fence.size = { width: 200, height: 32 };
+                fence.asset = new PixelJS.Tile();
+                fence.asset.prepare({
+                    name: 'grass_fencing.png',
+                    size: fence.size
+                });
+                
+                backgroundLayer.registerCollidable(fence);
+                backgroundLayer.static = true;
+                
+                game.loadScene(function () {
+                    game.run(function (elapsedTime, dt) {   
+                    });
+                });
             }
         }
     </script>
