@@ -31,7 +31,7 @@
                     height: 600
                 });
                 
-                //game.displayFPS = true;
+                game.maxDeltaTime = 33;                
                 
                 var backgroundLayer = game.createLayer("background");
                 var playerLayer = game.createLayer("players");
@@ -40,13 +40,13 @@
                 player.addToLayer(playerLayer);
                 player.pos = { x: 200, y: 300 };
                 player.size = { width: 32, height: 32 };
-                player.velocity = { x: 0.125, y: 0.125 };
+                player.velocity = { x: 100, y: 100 };
                 player.asset = new PixelJS.AnimatedSprite();
                 player.asset.load({ 
                     name: 'char112.png', 
                     frames: 3, 
                     rows: 4,
-                    speed: 0.125,
+                    speed: 100,
                     defaultFrame: 1,
                     transparencyKey: { r: 0, g: 132, b: 255 } 
                 });
