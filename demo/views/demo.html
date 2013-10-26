@@ -9,6 +9,7 @@
     
     <script src="/pixel.js/polyfills.js"></script>
     <script src="/pixel.js/pixel.js"></script>
+    <script src="/pixel.js/asset.js"></script>
     <script src="/pixel.js/engine.js"></script>
     <script src="/pixel.js/sprite.js"></script>
     <script src="/pixel.js/entity.js"></script>
@@ -30,7 +31,7 @@
                     height: 600
                 });
                 
-                game.displayFPS = true;
+                //game.displayFPS = true;
                 
                 var backgroundLayer = game.createLayer("background");
                 var playerLayer = game.createLayer("players");
@@ -63,22 +64,29 @@
                     size: { 
                         width: 800, 
                         height: 600 
+                    },
+                    callback: function () { 
+                        
+                        var fence = backgroundLayer.createEntity();
+                        fence.pos = { x: 0, y: 408 };
+                        fence.size = { width: 200, height: 32 };
+                        fence.asset = new PixelJS.Tile();
+                        fence.asset.load({
+                            name: 'grass_fencing.png',
+                            size: fence.size,
+                            callback: function () { 
+                                backgroundLayer.registerCollidable(fence);
+                                //while (!fence.asset._loaded || !grass.asset._loaded) {
+                                    backgroundLayer.static = true;
+                                //}
+                                
+                                game.run(function (elapsedTime, dt) {   
+                                });
+                            }
+                        });
                     }
                 });
                 
-                var fence = backgroundLayer.createEntity();
-                fence.pos = { x: 0, y: 408 };
-                fence.size = { width: 200, height: 32 };
-                fence.asset = new PixelJS.Tile();
-                fence.asset.load({
-                    name: 'grass_fencing.png',
-                    size: fence.size
-                });
-                
-                backgroundLayer.registerCollidable(fence);
-                
-                game.run(function (elapsedTime, dt) {   
-                });
             }
         }
     </script>
