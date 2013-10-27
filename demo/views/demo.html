@@ -19,6 +19,7 @@
     <script src="/pixel.js/tile.js"></script>
     <script src="/pixel.js/fps_counter.js"></script>
     <script src="/pixel.js/player.js"></script>
+    <script src="/pixel.js/sound.js"></script>
     
     <script type="text/javascript">
         document.onreadystatechange = function () {
@@ -31,8 +32,8 @@
                     height: 600
                 });
                 
-                game.maxDeltaTime = 33;                
-                
+                game.maxDeltaTime = 33;        
+
                 var backgroundLayer = game.createLayer("background");
                 var playerLayer = game.createLayer("players");
                 
@@ -52,7 +53,7 @@
                 });
                 
                 playerLayer.registerCollidable(player);
-                player.onColide = function(collidable) {
+                player.onCollide = function(collidable) {
                     console.log("Colliding!");
                 };
                 
