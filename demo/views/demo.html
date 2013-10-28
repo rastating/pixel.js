@@ -32,7 +32,7 @@
                     height: 600
                 });
                 
-                game.maxDeltaTime = 33;        
+                game.maxDeltaTime = 33;
 
                 var backgroundLayer = game.createLayer("background");
                 var playerLayer = game.createLayer("players");
@@ -79,6 +79,12 @@
                 
                 backgroundLayer.registerCollidable(fence);
                 backgroundLayer.static = true;
+                
+                var music = game.createSound('music');
+                music.load({ name: 'music.mp3' }, function () {
+                    music.loop = true;
+                    music.play();
+                });
                 
                 game.loadScene(function () {
                     game.run(function (elapsedTime, dt) {   

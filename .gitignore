@@ -216,6 +216,3 @@ pip-log.txt
 
 #Node.js
 node_modules/
-
-# Pixel.js Sounds
-demo/assets/sounds
