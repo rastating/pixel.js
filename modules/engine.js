@@ -34,6 +34,7 @@ PixelJS.Engine = function () {
         var keyCode = e.keyCode;
         var listeners = self._events.keydown;
         if (listeners.length > 0) {
+            e.preventDefault();
             listeners.forEach(function(listener) {
                 listener(keyCode);
             });
@@ -45,6 +46,7 @@ PixelJS.Engine = function () {
         var keyCode = e.keyCode;
         var listeners = self._events.keyup;
         if (listeners.length > 0) {
+            e.preventDefault();
             listeners.forEach(function(listener) {
                 listener(keyCode);
             });
