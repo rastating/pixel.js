@@ -28,7 +28,7 @@ var PixelJS = {
     Tile: function () { },
     
     _assetCache: [],
-    assetPath: '/assets',
+    assetPath: 'assets',
     
     extend: function (childClass, parentClass) {
         childClass.prototype = new parentClass();
