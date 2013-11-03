@@ -17,7 +17,7 @@
 
 PixelJS.Asset = function () {
     "use strict";
-    this._prepInfo = { };
+    this._prepInfo = undefined;
 };
 
 PixelJS.Asset.prototype._loaded = false;

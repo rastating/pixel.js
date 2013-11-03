@@ -18,7 +18,7 @@
 PixelJS.Sound = function () {
     this._element = undefined;
     this._canPlay = false;
-    this._prepInfo = { };
+    this._prepInfo = undefined;
 };
 
 PixelJS.Sound.prototype.load = function (info, callback) {

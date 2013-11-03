@@ -140,6 +140,15 @@ PixelJS.Engine.prototype.on = function (event, callback) {
     this._events[event].push(callback);
 };
 
+PixelJS.Engine.prototype.loadAndRun = function (gameLoop) {
+    var self = this;
+    self.loadScene(function () {
+        self.loadSounds(function () {
+            self.run(gameLoop);
+        });
+    });
+};
+
 PixelJS.Engine.prototype.loadScene = function (callback) {
     var loading = this._layerKeys.length;
     for (var k = 0; k < this._layerKeys.length; k++) {
@@ -160,7 +169,7 @@ PixelJS.Engine.prototype.loadSounds = function (callback) {
     else {
         for (var k = 0; k < this._soundKeys.length; k++) {
             var key = this._soundKeys[k];
-            if (this._sounds[key]._canPlay) {
+            if (this._sounds[key]._canPlay || this._sounds[key]._prepInfo === undefined) {
                 loading -= 1;
                 if (loading === 0) {
                     callback();

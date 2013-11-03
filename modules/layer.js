@@ -109,7 +109,7 @@ PixelJS.Layer.prototype.load = function (callback) {
     else {
         for (var i = 0; i < this._components.length; i++) {
             var c = this._components[i];
-            if (c.asset !== undefined) {
+            if (c.asset !== undefined && c.asset._prepInfo !== undefined) {
                 c.asset.load(c.asset._prepInfo, function () {
                     loading -= 1;
                     if (loading === 0) {
