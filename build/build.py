@@ -6,7 +6,6 @@ from slimit import minify
 root = os.path.dirname(os.path.realpath(__file__))
 modules = [
     'pixel.js', 
-    'animated_sprite.js', 
     'asset.js', 
     'engine.js', 
     'entity.js', 
@@ -16,6 +15,7 @@ modules = [
     'polyfills.js', 
     'sound.js', 
     'sprite.js', 
+    'animated_sprite.js',
     'sprite_sheet.js', 
     'tile.js'
 ]
