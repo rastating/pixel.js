@@ -102,7 +102,7 @@ PixelJS.SpriteSheet.prototype.load = function (info, callback) {
         }
     }
     
-    this.image.src = PixelJS.assetPath + 'sprite_sheets/' + this.name;
+    this.image.src = PixelJS.assetPath + '/sprite_sheets/' + this.name;
     this.image.onload = function () {
         self._frameSize.width = Math.floor(self.image.width / info.frames);
         self._frameSize.height = Math.floor(self.image.height / rows);
