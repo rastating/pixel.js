@@ -38,6 +38,9 @@ PixelJS.Layer.prototype._insertIntoDom = function() {
     this._canvas = document.createElement('canvas');
     this._canvas.width = this.engine.scene.width;
     this._canvas.height = this.engine.scene.height;
+    this._canvas.style.position = 'absolute';
+    this._canvas.style.top = 0;
+    this._canvas.style.left = 0;
     this._canvas.className = 'scene-layer';
     this._ctx = this._canvas.getContext('2d');
     container.appendChild(this._canvas);
