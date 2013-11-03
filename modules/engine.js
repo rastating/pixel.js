@@ -86,7 +86,7 @@ PixelJS.Engine.prototype._checkForCollissions = function () {
 };
 
 PixelJS.Engine.prototype._displayFPS = false;
-PixelJS.Engine.prototype.maxDeltaTime = 100;
+PixelJS.Engine.prototype.maxDeltaTime = 33;
 
 PixelJS.Engine.prototype._toggleFPSLayer = function () {
     if (this._displayFPS) {
