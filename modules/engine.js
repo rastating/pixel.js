@@ -23,6 +23,7 @@ PixelJS.Engine = function () {
     this._events = { keydown: [], keyup: [] };
     this._layerKeys = [];
     this._layers = {};
+    this._originalContainerStyle = {};
     this._previousElapsedTime = 0;
     this._size = { width: 0, height: 0 };
     this._soundKeys = [];
@@ -52,6 +53,23 @@ PixelJS.Engine = function () {
             });
         }
     };
+    
+    this._resizeHandler = function () {
+        self.scene.container.style.width =  window.innerWidth + "px";
+        self.scene.container.style.height = window.innerHeight + "px";
+    };
+    
+    this._screenModeChangeHandler = function () {
+        var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+        var fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled;
+        
+        if (fullscreenElement === null) {
+            document.removeEventListener("fullscreenchange", self._screenModeChangeHandler, false);      
+            document.removeEventListener("webkitfullscreenchange", self._screenModeChangeHandler, false);
+            document.removeEventListener("mozfullscreenchange", self._screenModeChangeHandler, false);
+            self.fullscreen = false;
+        }
+    }
 };
 
 PixelJS.Engine.prototype._checkForCollissions = function () {
@@ -86,6 +104,7 @@ PixelJS.Engine.prototype._checkForCollissions = function () {
 };
 
 PixelJS.Engine.prototype._displayFPS = false;
+PixelJS.Engine.prototype._fullscreen = false;
 PixelJS.Engine.prototype.maxDeltaTime = 33;
 
 PixelJS.Engine.prototype._toggleFPSLayer = function () {
@@ -106,7 +125,47 @@ PixelJS.Engine.prototype._toggleFPSLayer = function () {
             this._layers["__pixeljs_performanceLayer"].visible = false;
         }
     }
-}
+};
+
+PixelJS.Engine.prototype._updateScreenMode = function () {
+    if (this._fullscreen) {
+        if (this.scene.container.requestFullScreen) {
+            this.scene.container.requestFullScreen();
+        }
+        else if (this.scene.container.webkitRequestFullScreen) {
+            this.scene.container.webkitRequestFullScreen();
+        }
+        else {
+            this.scene.container.mozRequestFullScreen();
+        }            
+        
+        this.scene.container.style.position = 'absolute';
+        this.scene.container.style.top = 0;
+        this.scene.container.style.left = 0;
+        window.addEventListener('resize', this._resizeHandler);
+                                                                            
+        document.addEventListener("fullscreenchange", this._screenModeChangeHandler, false);      
+        document.addEventListener("webkitfullscreenchange", this._screenModeChangeHandler, false);
+        document.addEventListener("mozfullscreenchange", this._screenModeChangeHandler, false);
+    }
+    else {
+        window.removeEventListener('resize', this._resizeHandler);
+        
+        this.scene.container.style.position = this._originalContainerStyle.position;
+        this.scene.container.style.width = this._originalContainerStyle.width;
+        this.scene.container.style.height = this._originalContainerStyle.height;
+        
+        if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } 
+        else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } 
+        else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+    }
+};
 
 PixelJS.Engine.prototype.addSound = function (key, sound) {
     this._sounds[key] = sound;
@@ -130,6 +189,12 @@ PixelJS.Engine.prototype.init = function (info) {
     this.scene.container = document.getElementById(info.container);
     this.scene.width = info.width;
     this.scene.height = info.height;
+
+    this._originalContainerStyle.position = this.scene.container.style.position;
+    this._originalContainerStyle.width = this.scene.container.style.width;
+    this._originalContainerStyle.height = this.scene.container.style.height;
+    this._originalContainerStyle.top = this.scene.container.style.top;
+    this._originalContainerStyle.left = this.scene.container.style.left;
     
     if (info.maxDeltaTime !== undefined) {
         this.maxDeltaTime = info.maxDeltaTime;
@@ -229,4 +294,14 @@ Object.defineProperty(PixelJS.Engine.prototype, "displayFPS", {
     },
     configurable: false,
     enumerable: false
+});
+
+Object.defineProperty(PixelJS.Engine.prototype, "fullscreen", {
+    get: function () { return this._fullscreen; },
+    set: function (val) {
+        this._fullscreen = val;
+        this._updateScreenMode();
+    },
+    configurable: false,
+    enumerable: true
 });
