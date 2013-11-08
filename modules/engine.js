@@ -63,7 +63,7 @@ PixelJS.Engine = function () {
         var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
         var fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled;
         
-        if (fullscreenElement === null) {
+        if (fullscreenElement === null || fullscreenElement === undefined) {
             document.removeEventListener("fullscreenchange", self._screenModeChangeHandler, false);      
             document.removeEventListener("webkitfullscreenchange", self._screenModeChangeHandler, false);
             document.removeEventListener("mozfullscreenchange", self._screenModeChangeHandler, false);
