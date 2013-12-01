@@ -21,7 +21,8 @@ PixelJS.Engine = function () {
     this.scene = { container: undefined, width: 0, height: 0 };
     this._deltaTime = 0; // _deltaTime contains the time in fractional seconds since the last update
     this._fullscreenRequested = false;
-    this._events = { keydown: [], keyup: [] };
+    this._events = { keydown: [], keyup: [], mousemove: [] };
+    this._inputLayer = [];
     this._layerKeys = [];
     this._layers = {};
     this._originalContainerStyle = {};
@@ -207,6 +208,30 @@ PixelJS.Engine.prototype.init = function (info) {
     if (info.maxDeltaTime !== undefined) {
         this.maxDeltaTime = info.maxDeltaTime;
     }
+    
+    var self = this;
+    this._inputLayer = document.createElement('div');
+    this._inputLayer.width = this.scene.width;
+    this._inputLayer.height = this.scene.height;
+    this._inputLayer.style.position = 'absolute';
+    this._inputLayer.style.top = 0;
+    this._inputLayer.style.left = 0;
+    this._inputLayer.style.width = '100%';
+    this._inputLayer.style.height = '100%';
+    this._inputLayer.className = 'scene-layer';
+    this._inputLayer.style.zIndex = '9999';
+    this._inputLayer.onmousemove = function (e) {
+        var listeners = self._events.mousemove;
+        var point = self._inputLayer.relMouseCoords(e);
+        if (listeners.length > 0) {
+            listeners.forEach(function(listener) {
+                listener(e, point);
+            });
+        }
+    };
+    this.scene.container.appendChild(this._inputLayer);
+    
+    
 };
 
 PixelJS.Engine.prototype.on = function (event, callback) {
