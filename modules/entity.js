@@ -18,6 +18,7 @@
 PixelJS.Entity = function (layer) {
     "use strict";
     
+    this._dragAnchorPoint = { x: 0, y: 0 };
     this.asset = undefined;
     this.layer = layer;
     this.pos = { x: 0, y: 0 };
@@ -26,16 +27,46 @@ PixelJS.Entity = function (layer) {
 };
 
 PixelJS.Entity.prototype._isCollidable = false;
+PixelJS.Entity.prototype._isDraggable = false;
+PixelJS.Entity.prototype._isDragging = false;
 PixelJS.Entity.prototype.canMoveLeft = true;
 PixelJS.Entity.prototype.canMoveUp = true;
 PixelJS.Entity.prototype.canMoveRight = true;
 PixelJS.Entity.prototype.canMoveDown = true;
 PixelJS.Entity.prototype.visible = true;
 
+PixelJS.Entity.prototype._onMouseDown = function (e, point) {
+    if (point.x >= this.pos.x && point.x <= this.pos.x + this.size.width) {
+        if (point.y >= this.pos.y && point.y <= this.pos.y + this.size.height) {
+            this._dragAnchorPoint.x = point.x - this.pos.x;
+            this._dragAnchorPoint.y = point.y - this.pos.y;
+            this._isDragging = true;
+        }
+    }
+};
+
+PixelJS.Entity.prototype._onMouseUp = function (e, point) {
+    this._isDragging = false;
+}
+
 PixelJS.Entity.prototype._setIsCollidable = function (val) {
     this._isCollidable = val;
     if (val) {
-        this.layer._registerCollidable(this);
+        this.layer.registerCollidable(this);
+    }
+};
+
+PixelJS.Entity.prototype._setIsDraggable = function (val) {
+    this._isDraggable = val;
+    if (val) {
+        var self = this;
+        this.layer.engine.on('mousedown', function (e, p) {
+            self._onMouseDown(e, p);
+        });
+        this.layer.engine.on('mouseup', function (e, p) {
+            self._onMouseUp(e, p);
+        });
+        this.layer._registerDraggable(this);
     }
 };
 
@@ -73,7 +104,7 @@ PixelJS.Entity.prototype.moveDown = function () {
         this.pos.y += this.velocity.y * this.layer.engine._deltaTime;
     }
 };
-    
+
 PixelJS.Entity.prototype.moveUp = function () {
     if (this.canMoveUp) {
         this.pos.y -= this.velocity.y * this.layer.engine._deltaTime;
@@ -83,12 +114,30 @@ PixelJS.Entity.prototype.moveUp = function () {
 PixelJS.Entity.prototype.onCollide = function (entity) {
 };
 
+PixelJS.Entity.prototype.onDrag = function (point) {
+    this.pos.x = point.x - this._dragAnchorPoint.x;
+    this.pos.y = point.y - this._dragAnchorPoint.y;
+};
+
 PixelJS.Entity.prototype.update = function(elapsedTime, dt) {
 };
 
 Object.defineProperty(PixelJS.Entity.prototype, "isCollidable", {
     get: function () { return this._isCollidable; },
     set: function (val) { this._setIsCollidable(val) },
+    configurable: false,
+    enumerable: false
+});
+
+Object.defineProperty(PixelJS.Entity.prototype, "isDraggable", {
+    get: function () { return this._isDraggable; },
+    set: function (val) { this._setIsDraggable(val) },
+    configurable: false,
+    enumerable: false
+});
+
+Object.defineProperty(PixelJS.Entity.prototype, "isDragging", {
+    get: function () { return this._isDragging; },
     configurable: false,
     enumerable: false
 });

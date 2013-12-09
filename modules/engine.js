@@ -21,7 +21,7 @@ PixelJS.Engine = function () {
     this.scene = { container: undefined, width: 0, height: 0 };
     this._deltaTime = 0; // _deltaTime contains the time in fractional seconds since the last update
     this._fullscreenRequested = false;
-    this._events = { keydown: [], keyup: [], mousemove: [] };
+    this._events = { keydown: [], keyup: [], mousemove: [], mousedown: [], mouseup: [] };
     this._inputLayer = [];
     this._layerKeys = [];
     this._layers = {};
@@ -229,9 +229,28 @@ PixelJS.Engine.prototype.init = function (info) {
             });
         }
     };
+    
+    this._inputLayer.onmousedown = function (e) {
+        var listeners = self._events.mousedown;
+        var point = self._inputLayer.relMouseCoords(e);
+        if (listeners.length > 0) {
+            listeners.forEach(function(listener) {
+                listener(e, point);
+            });
+        }
+    };
+    
+    this._inputLayer.onmouseup = function (e) {
+        var listeners = self._events.mouseup;
+        var point = self._inputLayer.relMouseCoords(e);
+        if (listeners.length > 0) {
+            listeners.forEach(function(listener) {
+                listener(e, point);
+            });
+        }
+    };
+    
     this.scene.container.appendChild(this._inputLayer);
-    
-    
 };
 
 PixelJS.Engine.prototype.on = function (event, callback) {

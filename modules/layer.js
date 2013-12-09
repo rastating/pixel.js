@@ -24,6 +24,7 @@ PixelJS.Layer = function (engine) {
     this._ctx = undefined;
     this._components = [];
     this._collidables = [];
+    this._draggables = [];
     this.engine = engine;
     
     this._insertIntoDom();
@@ -53,11 +54,25 @@ PixelJS.Layer.prototype._insertIntoDom = function() {
     this._backBufferCtx = this._backBuffer.getContext('2d');
 };
 
-PixelJS.Layer.prototype.registerCollidable = function(collidable) {
+PixelJS.Layer.prototype._registerDraggable = function (draggable) {
+    if (this._draggables.length == 0) {
+        var self = this;
+        this.engine.on('mousemove', function (e, point) {
+            for (var i = 0; i < self._draggables.length; i++) {
+                if (self._draggables[i].isDragging) {
+                    self._draggables[i].onDrag(point);
+                }
+            }
+        });
+    }
+    this._draggables.push(draggable);
+};
+
+PixelJS.Layer.prototype.registerCollidable = function (collidable) {
     this._collidables.push(collidable);
 };
 
-PixelJS.Layer.prototype.addComponent = function(component) {
+PixelJS.Layer.prototype.addComponent = function (component) {
     this._components.push(component);
 };
 
@@ -68,7 +83,7 @@ PixelJS.Layer.prototype.createEntity = function () {
     return entity;
 };
 
-PixelJS.Layer.prototype.draw = function() {
+PixelJS.Layer.prototype.draw = function () {
     if (this.redraw) {
         if (this.visible) {
             for (var i = 0; i < this._components.length; i++) {
@@ -86,11 +101,11 @@ PixelJS.Layer.prototype.draw = function() {
     }
 };
 
-PixelJS.Layer.prototype.drawImage = function(img, x, y) {
+PixelJS.Layer.prototype.drawImage = function (img, x, y) {
     this._backBufferCtx.drawImage(img, x, y);
 };
 
-PixelJS.Layer.prototype.drawFromCanvas = function(canvas, x, y) {
+PixelJS.Layer.prototype.drawFromCanvas = function (canvas, x, y) {
     this._backBufferCtx.drawImage(canvas, x, y);
 };
 
