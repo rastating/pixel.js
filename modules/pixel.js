@@ -144,5 +144,11 @@ var PixelJS = {
         Right: 2,
         Up: 4,
         Down: 8
+    },
+    
+    Buttons: {
+        Left: 1,
+        Right: 2,
+        Middle: 4
     }
 };

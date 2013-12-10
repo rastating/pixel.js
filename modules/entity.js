@@ -26,28 +26,78 @@ PixelJS.Entity = function (layer) {
     this.velocity = { x: 0, y: 0 };
 };
 
+PixelJS.Entity.prototype._isClickable = false;
 PixelJS.Entity.prototype._isCollidable = false;
 PixelJS.Entity.prototype._isDraggable = false;
 PixelJS.Entity.prototype._isDragging = false;
+PixelJS.Entity.prototype._isMouseDown = false;
 PixelJS.Entity.prototype.canMoveLeft = true;
 PixelJS.Entity.prototype.canMoveUp = true;
 PixelJS.Entity.prototype.canMoveRight = true;
 PixelJS.Entity.prototype.canMoveDown = true;
+PixelJS.Entity.prototype.dragButton = PixelJS.Buttons.Left;
 PixelJS.Entity.prototype.visible = true;
+
+PixelJS.Entity.prototype._onDrag = function (point) {
+    this.pos.x = point.x - this._dragAnchorPoint.x;
+    this.pos.y = point.y - this._dragAnchorPoint.y;
+    this.onDrag(this.pos);
+};
 
 PixelJS.Entity.prototype._onMouseDown = function (e, point) {
     if (point.x >= this.pos.x && point.x <= this.pos.x + this.size.width) {
         if (point.y >= this.pos.y && point.y <= this.pos.y + this.size.height) {
-            this._dragAnchorPoint.x = point.x - this.pos.x;
-            this._dragAnchorPoint.y = point.y - this.pos.y;
-            this._isDragging = true;
+            // The middle button is usually 1 but should be dispatched
+            // as 4 to allow bitwise operations in the future.
+            var button = e.button == 1 ? 4 : e.button == 0 ? 1 : 2;
+            
+            if (this._isDraggable && button == this.dragButton) {
+                this._dragAnchorPoint.x = point.x - this.pos.x;
+                this._dragAnchorPoint.y = point.y - this.pos.y;
+                this._isDragging = true;
+            }
+            
+            if (this._isClickable) {
+                this._isMouseDown = true;
+                this.onMouseDown(point, button);
+            }
         }
     }
 };
 
 PixelJS.Entity.prototype._onMouseUp = function (e, point) {
-    this._isDragging = false;
+    // The middle button is usually 1 but should be dispatched
+    // as 4 to allow bitwise operations in the future.
+    var button = e.button == 1 ? 4 : e.button == 0 ? 1 : 2;
+    
+    if (this._isDraggable && this._isDragging && button == this.dragButton) {
+        this._isDragging = false;
+        this.onDrop(this.pos);
+    }
+    
+    if (this._isClickable && this._isMouseDown) {
+        this._isMouseDown = false;
+        this.onMouseUp(point, button);
+    }
 }
+
+PixelJS.Entity.prototype._setIsClickable = function (val) {
+    this._isClickable = val;
+    if (val) {
+        var self = this;
+           
+        // If the entity is already registered as a draggable, the mouse event
+        // hooks will already be in place and don't need to be re-added.
+        if (!this._isDraggable) {
+            this.layer.engine.on('mousedown', function (e, p) {
+                self._onMouseDown(e, p);
+            });
+            this.layer.engine.on('mouseup', function (e, p) {
+                self._onMouseUp(e, p);
+            });
+        }
+    }
+};
 
 PixelJS.Entity.prototype._setIsCollidable = function (val) {
     this._isCollidable = val;
@@ -60,12 +110,18 @@ PixelJS.Entity.prototype._setIsDraggable = function (val) {
     this._isDraggable = val;
     if (val) {
         var self = this;
-        this.layer.engine.on('mousedown', function (e, p) {
-            self._onMouseDown(e, p);
-        });
-        this.layer.engine.on('mouseup', function (e, p) {
-            self._onMouseUp(e, p);
-        });
+        
+        // If the entity is already registered as a clickable, the mouse event
+        // hooks will already be in place and don't need to be re-added.
+        if (!this._isClickable) {
+            this.layer.engine.on('mousedown', function (e, p) {
+                self._onMouseDown(e, p);
+            });
+            this.layer.engine.on('mouseup', function (e, p) {
+                self._onMouseUp(e, p);
+            });
+        }
+        
         this.layer._registerDraggable(this);
     }
 };
@@ -115,12 +171,26 @@ PixelJS.Entity.prototype.onCollide = function (entity) {
 };
 
 PixelJS.Entity.prototype.onDrag = function (point) {
-    this.pos.x = point.x - this._dragAnchorPoint.x;
-    this.pos.y = point.y - this._dragAnchorPoint.y;
+}
+
+PixelJS.Entity.prototype.onDrop = function (point) {
+};
+
+PixelJS.Entity.prototype.onMouseDown = function (point) {
+};
+
+PixelJS.Entity.prototype.onMouseUp = function (point) {
 };
 
 PixelJS.Entity.prototype.update = function(elapsedTime, dt) {
 };
+
+Object.defineProperty(PixelJS.Entity.prototype, "isClickable", {
+    get: function () { return this._isClickable; },
+    set: function (val) { this._setIsClickable(val) },
+    configurable: false,
+    enumerable: false
+});
 
 Object.defineProperty(PixelJS.Entity.prototype, "isCollidable", {
     get: function () { return this._isCollidable; },
