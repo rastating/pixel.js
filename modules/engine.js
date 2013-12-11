@@ -222,30 +222,38 @@ PixelJS.Engine.prototype.init = function (info) {
     this._inputLayer.style.zIndex = '9999';
     this._inputLayer.onmousemove = function (e) {
         var listeners = self._events.mousemove;
-        var point = self._inputLayer.relMouseCoords(e);
         if (listeners.length > 0) {
+            var point = self._inputLayer.relMouseCoords(e);
             listeners.forEach(function(listener) {
-                listener(e, point);
+                listener(point);
             });
         }
     };
     
     this._inputLayer.onmousedown = function (e) {
         var listeners = self._events.mousedown;
-        var point = self._inputLayer.relMouseCoords(e);
         if (listeners.length > 0) {
+            // The middle button is usually 1 but should be dispatched
+            // as 4 to allow bitwise operations in the future.
+            var button = e.button == 1 ? 4 : e.button == 0 ? 1 : 2;
+            var point = self._inputLayer.relMouseCoords(e);
+            
             listeners.forEach(function(listener) {
-                listener(e, point);
+                listener(point, button);
             });
         }
     };
     
     this._inputLayer.onmouseup = function (e) {
         var listeners = self._events.mouseup;
-        var point = self._inputLayer.relMouseCoords(e);
         if (listeners.length > 0) {
+            // The middle button is usually 1 but should be dispatched
+            // as 4 to allow bitwise operations in the future.
+            var button = e.button == 1 ? 4 : e.button == 0 ? 1 : 2;
+            var point = self._inputLayer.relMouseCoords(e);
+            
             listeners.forEach(function(listener) {
-                listener(e, point);
+                listener(point, button);
             });
         }
     };

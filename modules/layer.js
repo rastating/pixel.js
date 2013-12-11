@@ -57,7 +57,7 @@ PixelJS.Layer.prototype._insertIntoDom = function() {
 PixelJS.Layer.prototype._registerDraggable = function (draggable) {
     if (this._draggables.length == 0) {
         var self = this;
-        this.engine.on('mousemove', function (e, point) {
+        this.engine.on('mousemove', function (point) {
             for (var i = 0; i < self._draggables.length; i++) {
                 if (self._draggables[i].isDragging) {
                     self._draggables[i]._onDrag(point);
