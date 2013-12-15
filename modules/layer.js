@@ -109,6 +109,25 @@ PixelJS.Layer.prototype.drawFromCanvas = function (canvas, x, y) {
     this._backBufferCtx.drawImage(canvas, x, y);
 };
 
+PixelJS.Layer.prototype.drawRectangle = function (x, y, width, height, style) {
+    this._backBufferCtx.save();
+    this._backBufferCtx.beginPath();
+    this._backBufferCtx.rect(x, y, width, height);
+    
+    if (style.fill !== undefined) {
+        this._backBufferCtx.fillStyle = style.fill;
+        this._backBufferCtx.fill();
+    }
+    
+    if (style.stroke !== undefined) {
+        this._backBufferCtx.strokeStyle = style.stroke;
+        this._backBufferCtx.stroke();
+    }
+    
+    this._backBufferCtx.closePath();
+    this._backBufferCtx.restore();
+};
+
 PixelJS.Layer.prototype.drawText = function (text, x, y, font, fillStyle, textAlign) {
     this._backBufferCtx.save();
     this._backBufferCtx.font = font;
