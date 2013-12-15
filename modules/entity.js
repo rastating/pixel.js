@@ -29,6 +29,8 @@ PixelJS.Entity.prototype._isCollidable = false;
 PixelJS.Entity.prototype._isDraggable = false;
 PixelJS.Entity.prototype._isDragging = false;
 PixelJS.Entity.prototype._isMouseDown = false;
+PixelJS.Entity.prototype._isHoverable = false;
+PixelJS.Entity.prototype._isHovered = false;
 PixelJS.Entity.prototype.canMoveLeft = true;
 PixelJS.Entity.prototype.canMoveUp = true;
 PixelJS.Entity.prototype.canMoveRight = true;
@@ -69,6 +71,9 @@ PixelJS.Entity.prototype._onMouseDown = function (point, button) {
 };
 
 PixelJS.Entity.prototype._onMouseDownCallback = function (point, button) {
+};
+
+PixelJS.Entity.prototype._onMouseHover = function (point) {
 };
 
 PixelJS.Entity.prototype._onMouseUpCallback = function (point, button) {
@@ -219,6 +224,31 @@ PixelJS.Entity.prototype.onMouseDown = function (callback) {
     }
     
     this._onMouseDownCallback = callback;
+    return this;
+};
+
+PixelJS.Entity.prototype.onMouseHover = function (callback) {
+    if (!this._isHoverable) {
+        var self = this;
+        this.layer.engine.on('mousemove', function (point) {
+            if (point.x >= self.pos.x && point.x <= self.pos.x + self.size.width) {
+                if (point.y >= self.pos.y && point.y <= self.pos.y + self.size.height) {
+                    if (!self._isHovered) {
+                        self._onMouseHover(point);
+                        self._isHovered = true;
+                    }
+                }
+                else {
+                    self._isHovered = false;
+                }
+            }
+            else {
+                self._isHovered = false;
+            }
+        });
+    }
+    
+    this._onMouseHover = callback;
     return this;
 };
 
