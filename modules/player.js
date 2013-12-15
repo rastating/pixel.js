@@ -76,6 +76,8 @@ PixelJS.Player.prototype.addToLayer = function (layer) {
         
         self.layer.requiresDraw = true;
     });
+    
+    return this;
 }
 
 PixelJS.Player.prototype.update = function (elapsedTime, dt) {
@@ -131,4 +133,6 @@ PixelJS.Player.prototype.update = function (elapsedTime, dt) {
             }
         }
     }
+    
+    return this;
 };

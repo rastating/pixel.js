@@ -114,4 +114,6 @@ PixelJS.SpriteSheet.prototype.load = function (info, callback) {
         
         callback(self);
     };
+    
+    return this;
 };

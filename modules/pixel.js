@@ -28,6 +28,16 @@ var PixelJS = {
     _assetCache: [],
     assetPath: 'assets',
     
+    existsInArray: function (item, arrayToSearch) {
+        var i = arrayToSearch.length;
+        while (i--) {
+            if (arrayToSearch[i] == item) {
+                return true;
+            }
+        }
+        return false;
+    },
+    
     extend: function (childClass, parentClass) {
         childClass.prototype = new parentClass();
         childClass.prototype.constructor = childClass;

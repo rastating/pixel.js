@@ -30,28 +30,37 @@ PixelJS.Sound.prototype.load = function (info, callback) {
         }
     }, true);
     this._element.load();
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.pause = function () {
     if (this._canPlay) {
         this._element.pause();
     }
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.play = function () {
     if (this._canPlay) {
         this._element.play();
     }
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.prepare = function (info) {
     this._prepInfo = info;
+    return this;
 };
 
 PixelJS.Sound.prototype.seek = function (time) {
     if (this._canPlay) {
         this._element.currentTime = time;
     }
+    
+    return this;
 };
 
 Object.defineProperty(PixelJS.Sound.prototype, "duration", {

@@ -30,6 +30,8 @@ PixelJS.FPSCounter.prototype.update = function (elapsedTime, dt) {
     else {
         this._lastUpdate += dt;   
     }
+    
+    return this;
 };
 
 PixelJS.FPSCounter.prototype.draw = function () {
@@ -39,4 +41,6 @@ PixelJS.FPSCounter.prototype.draw = function () {
         '18px "Courier New", Courier, monospace',
         '#00FF00'
     );
+    
+    return this;
 };

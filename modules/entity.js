@@ -36,10 +36,19 @@ PixelJS.Entity.prototype.canMoveDown = true;
 PixelJS.Entity.prototype.dragButton = PixelJS.Buttons.Left;
 PixelJS.Entity.prototype.visible = true;
 
+PixelJS.Entity.prototype._onCollide = function (entity) {
+};
+
 PixelJS.Entity.prototype._onDrag = function (point) {
     this.pos.x = point.x - this._dragAnchorPoint.x;
     this.pos.y = point.y - this._dragAnchorPoint.y;
-    this.onDrag(this.pos);
+    this._onDragCallback(this.pos);
+};
+
+PixelJS.Entity.prototype._onDragCallback = function (point) {
+};
+
+PixelJS.Entity.prototype._onDrop = function (point) {
 };
 
 PixelJS.Entity.prototype._onMouseDown = function (point, button) {
@@ -53,21 +62,28 @@ PixelJS.Entity.prototype._onMouseDown = function (point, button) {
             
             if (this._isClickable) {
                 this._isMouseDown = true;
-                this.onMouseDown(point, button);
+                this._onMouseDownCallback(point, button);
             }
         }
     }
 };
 
+PixelJS.Entity.prototype._onMouseDownCallback = function (point, button) {
+};
+
+PixelJS.Entity.prototype._onMouseUpCallback = function (point, button) {
+};
+
+
 PixelJS.Entity.prototype._onMouseUp = function (point, button) {
     if (this._isDraggable && this._isDragging && button == this.dragButton) {
         this._isDragging = false;
-        this.onDrop(this.pos);
+        this._onDrop(this.pos);
     }
     
     if (this._isClickable && this._isMouseDown) {
         this._isMouseDown = false;
-        this.onMouseUp(point, button);
+        this._onMouseUpCallback(point, button);
     }
 }
 
@@ -90,9 +106,12 @@ PixelJS.Entity.prototype._setIsClickable = function (val) {
 };
 
 PixelJS.Entity.prototype._setIsCollidable = function (val) {
-    this._isCollidable = val;
-    if (val) {
+    if (val && !this._isCollidable) {
+        this._isCollidable = val;
         this.layer.registerCollidable(this);
+    }
+    else {
+        this._isCollidable = val;
     }
 };
 
@@ -119,6 +138,7 @@ PixelJS.Entity.prototype._setIsDraggable = function (val) {
 PixelJS.Entity.prototype.addToLayer = function (layer) {
     this.layer = layer;
     layer.addComponent(this);
+    return this;
 }
 
 PixelJS.Entity.prototype.collidesWith = function (entity) {
@@ -131,45 +151,84 @@ PixelJS.Entity.prototype.collidesWith = function (entity) {
 
 PixelJS.Entity.prototype.draw = function() {
     this.asset.draw(this);
+    return this;
 };
 
 PixelJS.Entity.prototype.moveLeft = function () {
     if (this.canMoveLeft) {
         this.pos.x -= this.velocity.x * this.layer.engine._deltaTime;
     }
+    
+    return this;
 };
     
 PixelJS.Entity.prototype.moveRight = function () {
     if (this.canMoveRight) {
         this.pos.x += this.velocity.x * this.layer.engine._deltaTime;
     }
+    
+    return this;
 };
     
 PixelJS.Entity.prototype.moveDown = function () {
     if (this.canMoveDown) {
         this.pos.y += this.velocity.y * this.layer.engine._deltaTime;
     }
+    
+    return this;
 };
 
 PixelJS.Entity.prototype.moveUp = function () {
     if (this.canMoveUp) {
         this.pos.y -= this.velocity.y * this.layer.engine._deltaTime;
     }
+    
+    return this;
 };
 
-PixelJS.Entity.prototype.onCollide = function (entity) {
+PixelJS.Entity.prototype.onCollide = function (callback) {
+    if (!this.isCollidable) {
+        this.isCollidable = true;
+    }
+    
+    this._onCollide = callback;
+    return this;    
 };
 
-PixelJS.Entity.prototype.onDrag = function (point) {
-}
-
-PixelJS.Entity.prototype.onDrop = function (point) {
+PixelJS.Entity.prototype.onDrag = function (callback) {
+    if (!this.isDraggable) {
+        this.isDraggable = true;
+    }
+    
+    this._onDragCallback = callback;
+    return this;
 };
 
-PixelJS.Entity.prototype.onMouseDown = function (point, button) {
+PixelJS.Entity.prototype.onDrop = function (callback) {
+    if (!this.isDraggable) {
+        this.isDraggable = true;
+    }
+    
+    this._onDrop = callback;
+    return this;
 };
 
-PixelJS.Entity.prototype.onMouseUp = function (point, button) {
+PixelJS.Entity.prototype.onMouseDown = function (callback) {
+    if (!this.isClickable) {
+        this.isClickable = true;
+    }
+    
+    this._onMouseDownCallback = callback;
+    return this;
+};
+
+PixelJS.Entity.prototype.onMouseUp = function (callback) {
+    if (!this.isClickable) {
+        this.isClickable = true;
+    }
+    
+    this._onMouseUpCallback = callback;
+    return this;
 };
 
 PixelJS.Entity.prototype.update = function(elapsedTime, dt) {

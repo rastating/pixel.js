@@ -69,12 +69,12 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
         }
         
         if (info.callback !== undefined) {
-            this.onLoad = info.callback;
+            this.onLoad(info.callback);
         }
     }
     
     if (callback !== undefined) {
-        this.onLoad = callback;
+        this.onLoad(callback);
     }
     
     this.image.src = PixelJS.assetPath + '/sprites/' + this.name;
@@ -87,10 +87,14 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
         
         self.loaded = true;
     };
+    
+    return this;
 };
 
 PixelJS.Sprite.prototype.draw = function (entity) {
     if (this.loaded && entity.visible) {
         entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y);
     }
+    
+    return this;
 };
