@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -65,15 +63,25 @@ PixelJS.Layer.prototype._registerDraggable = function (draggable) {
             }
         });
     }
-    this._draggables.push(draggable);
+    
+    if (!PixelJS.existsInArray(draggable, this._draggables)) {
+        this._draggables.push(draggable);
+    }
+    
+    return this;
 };
 
 PixelJS.Layer.prototype.registerCollidable = function (collidable) {
-    this._collidables.push(collidable);
+    if (!PixelJS.existsInArray(collidable, this._collidables)) {
+        this._collidables.push(collidable);
+    }
+    
+    return this;
 };
 
 PixelJS.Layer.prototype.addComponent = function (component) {
     this._components.push(component);
+    return this;
 };
 
 PixelJS.Layer.prototype.createEntity = function () {
@@ -99,14 +107,38 @@ PixelJS.Layer.prototype.draw = function () {
             this.redraw = false;
         }
     }
+    
+    return this;
 };
 
 PixelJS.Layer.prototype.drawImage = function (img, x, y) {
     this._backBufferCtx.drawImage(img, x, y);
+    return this;
 };
 
 PixelJS.Layer.prototype.drawFromCanvas = function (canvas, x, y) {
     this._backBufferCtx.drawImage(canvas, x, y);
+    return this;
+};
+
+PixelJS.Layer.prototype.drawRectangle = function (x, y, width, height, style) {
+    this._backBufferCtx.save();
+    this._backBufferCtx.beginPath();
+    this._backBufferCtx.rect(x, y, width, height);
+    
+    if (style.fill !== undefined) {
+        this._backBufferCtx.fillStyle = style.fill;
+        this._backBufferCtx.fill();
+    }
+    
+    if (style.stroke !== undefined) {
+        this._backBufferCtx.strokeStyle = style.stroke;
+        this._backBufferCtx.stroke();
+    }
+    
+    this._backBufferCtx.closePath();
+    this._backBufferCtx.restore();
+    return this;
 };
 
 PixelJS.Layer.prototype.drawText = function (text, x, y, font, fillStyle, textAlign) {
@@ -116,6 +148,7 @@ PixelJS.Layer.prototype.drawText = function (text, x, y, font, fillStyle, textAl
     this._backBufferCtx.textAlign = textAlign;
     this._backBufferCtx.fillText(text, x, y);
     this._backBufferCtx.restore();
+    return this;
 };
 
 PixelJS.Layer.prototype.load = function (callback) {
@@ -142,12 +175,15 @@ PixelJS.Layer.prototype.load = function (callback) {
             }
         }
     }
+    return this;
 };
 
 PixelJS.Layer.prototype.update = function(elapsedTime, dt) {
     for (var i = 0; i < this._components.length; i++) {
         this._components[i].update(elapsedTime, dt);
     }
+    
+    return this;
 };
 
 Object.defineProperty(PixelJS.Layer.prototype, "zIndex", {

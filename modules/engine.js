@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -81,33 +79,32 @@ PixelJS.Engine = function () {
 
 PixelJS.Engine.prototype._checkForCollissions = function () {
     for (var keyIndex = 0; keyIndex < this._layerKeys.length; keyIndex++) {
-        // Check for collissions within the layer's own collidables
+        // Check for collisions within the layer's own collidables
         var collidables = this._layers[this._layerKeys[keyIndex]]._collidables;
         for (var s = 0; s < collidables.length; s++) {
             for (var t = 0; t < collidables.length; t++) {
                 if (s !== t) {
                     if (collidables[s].collidesWith(collidables[t])) {
-                        collidables[s].onCollide(collidables[t]);
+                        collidables[s]._onCollide(collidables[t]);
                     }
                 }
             }
         }
 
-        // Check for collissions with the other layers' collidables
+        // Check for collisions with the other layers' collidables
         for (var k = 0; k < this._layerKeys.length; k++) {
             if (k !== keyIndex) {
                 var otherCollidables = this._layers[this._layerKeys[k]]._collidables;
                 for (var s = 0; s < collidables.length; s++) {
                     for (var t = 0; t < otherCollidables.length; t++) {
                         if (collidables[s].collidesWith(otherCollidables[t])) {
-                            collidables[s].onCollide(otherCollidables[t]);
+                            collidables[s]._onCollide(otherCollidables[t]);
                         }
                     }
                 }
             }
         }
     }
-
 };
 
 PixelJS.Engine.prototype._displayFPS = false;
@@ -178,6 +175,7 @@ PixelJS.Engine.prototype._updateScreenMode = function () {
 
 PixelJS.Engine.prototype.addSound = function (key, sound) {
     this._sounds[key] = sound;
+    return this;
 };
 
 PixelJS.Engine.prototype.createLayer = function (name) {
@@ -259,10 +257,12 @@ PixelJS.Engine.prototype.init = function (info) {
     };
     
     this.scene.container.appendChild(this._inputLayer);
+    return this;
 };
 
 PixelJS.Engine.prototype.on = function (event, callback) {
     this._events[event].push(callback);
+    return this;
 };
 
 PixelJS.Engine.prototype.loadAndRun = function (gameLoop) {
@@ -272,6 +272,8 @@ PixelJS.Engine.prototype.loadAndRun = function (gameLoop) {
             self.run(gameLoop);
         });
     });
+    
+    return this;
 };
 
 PixelJS.Engine.prototype.loadScene = function (callback) {
@@ -284,6 +286,8 @@ PixelJS.Engine.prototype.loadScene = function (callback) {
             }
         });
     }
+    
+    return this;
 };
 
 PixelJS.Engine.prototype.loadSounds = function (callback) {
@@ -310,10 +314,13 @@ PixelJS.Engine.prototype.loadSounds = function (callback) {
             }
         }
     }
+    
+    return this;
 };
 
 PixelJS.Engine.prototype.playSound = function (key) {
     this._sounds[key].play();
+    return this;
 }
 
 PixelJS.Engine.prototype.run = function (gameLoop) {
@@ -338,6 +345,8 @@ PixelJS.Engine.prototype.run = function (gameLoop) {
 
         self._previousElapsedTime = elapsedTime;
     }());
+    
+    return this;
 };
 
 Object.defineProperty(PixelJS.Engine.prototype, "deltaTime", {

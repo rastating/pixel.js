@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -32,28 +30,37 @@ PixelJS.Sound.prototype.load = function (info, callback) {
         }
     }, true);
     this._element.load();
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.pause = function () {
     if (this._canPlay) {
         this._element.pause();
     }
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.play = function () {
     if (this._canPlay) {
         this._element.play();
     }
+    
+    return this;
 };
 
 PixelJS.Sound.prototype.prepare = function (info) {
     this._prepInfo = info;
+    return this;
 };
 
 PixelJS.Sound.prototype.seek = function (time) {
     if (this._canPlay) {
         this._element.currentTime = time;
     }
+    
+    return this;
 };
 
 Object.defineProperty(PixelJS.Sound.prototype, "duration", {

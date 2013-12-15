@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -71,12 +69,12 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
         }
         
         if (info.callback !== undefined) {
-            this.onLoad = info.callback;
+            this.onLoad(info.callback);
         }
     }
     
     if (callback !== undefined) {
-        this.onLoad = callback;
+        this.onLoad(callback);
     }
     
     this.image.src = PixelJS.assetPath + '/sprites/' + this.name;
@@ -89,10 +87,14 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
         
         self.loaded = true;
     };
+    
+    return this;
 };
 
 PixelJS.Sprite.prototype.draw = function (entity) {
     if (this.loaded && entity.visible) {
         entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y);
     }
+    
+    return this;
 };

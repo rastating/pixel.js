@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -36,10 +34,12 @@ Object.defineProperty(PixelJS.AnimatedSprite.prototype, "isAnimating", {
 
 PixelJS.AnimatedSprite.prototype.startAnimating = function () {
     this._isAnimating = true;
+    return this;
 }
 
 PixelJS.AnimatedSprite.prototype.stopAnimating = function () {
     this._isAnimating = false;
+    return this;
 }
 
 PixelJS.AnimatedSprite.prototype.load = function (info, callback) {
@@ -64,18 +64,20 @@ PixelJS.AnimatedSprite.prototype.load = function (info, callback) {
         }
         
         if (info.callback !== undefined) {
-            this.onLoad = info.callback;
+            this.onLoad(info.callback);
         }
     }
     
     if (callback !== undefined) {
-        this.onLoad = callback;
+        this.onLoad(callback);
     }
     
     this.spriteSheet = new PixelJS.SpriteSheet();
     this.spriteSheet.load(info, function () {
         self.loaded = true;
     });
+    
+    return this;
 };
                           
 PixelJS.AnimatedSprite.prototype.draw = function (entity) {
@@ -97,4 +99,6 @@ PixelJS.AnimatedSprite.prototype.draw = function (entity) {
         
         entity.layer.drawImage(this.spriteSheet._frameImages[this.row][this._currentFrame], entity.pos.x, entity.pos.y);
     }
+    
+    return this;
 };

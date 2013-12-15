@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -32,6 +30,8 @@ PixelJS.FPSCounter.prototype.update = function (elapsedTime, dt) {
     else {
         this._lastUpdate += dt;   
     }
+    
+    return this;
 };
 
 PixelJS.FPSCounter.prototype.draw = function () {
@@ -41,4 +41,6 @@ PixelJS.FPSCounter.prototype.draw = function () {
         '18px "Courier New", Courier, monospace',
         '#00FF00'
     );
+    
+    return this;
 };

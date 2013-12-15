@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -21,12 +19,18 @@ PixelJS.Asset = function () {
 };
 
 PixelJS.Asset.prototype._loaded = false;
+PixelJS.Asset.prototype._onLoad = undefined;
 PixelJS.Asset.prototype.load = function (info, callback) { };
 PixelJS.Asset.prototype.name = '';
-PixelJS.Asset.prototype.onLoad = undefined;
+
+PixelJS.Asset.prototype.onLoad = function (callback) {
+    this._onLoad = callback;
+    return this;
+};
 
 PixelJS.Asset.prototype.prepare = function (info) {
     this._prepInfo = info;
+    return this;
 };
 
 Object.defineProperty(PixelJS.Asset.prototype, "loaded", {
@@ -35,8 +39,8 @@ Object.defineProperty(PixelJS.Asset.prototype, "loaded", {
     },
     set: function (val) { 
         this._loaded = val;
-        if (this.onLoad !== undefined) {
-            this.onLoad(this);
+        if (this._onLoad !== undefined) {
+            this._onLoad(this);
         }
     },
     configurable: false,

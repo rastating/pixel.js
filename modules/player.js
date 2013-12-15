@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -78,6 +76,8 @@ PixelJS.Player.prototype.addToLayer = function (layer) {
         
         self.layer.requiresDraw = true;
     });
+    
+    return this;
 }
 
 PixelJS.Player.prototype.update = function (elapsedTime, dt) {
@@ -133,4 +133,6 @@ PixelJS.Player.prototype.update = function (elapsedTime, dt) {
             }
         }
     }
+    
+    return this;
 };

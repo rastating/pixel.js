@@ -1,7 +1,5 @@
 // Copyright (C) 2013 rastating
 //
-// Version 0.0.3
-//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -35,12 +33,12 @@ PixelJS.Tile.prototype.load = function (info, callback) {
         }
         
         if (info.callback !== undefined) {
-            this.onLoad = info.callback;
+            this.onLoad(info.callback);
         }
     }
     
     if (callback !== undefined) {
-        this.onLoad = callback;
+        this.onLoad(callback);
     }
     
     var img = new Image();
@@ -62,6 +60,7 @@ PixelJS.Tile.prototype.load = function (info, callback) {
     };
     
     img.src = PixelJS.assetPath + '/tiles/' + this.name;
+    return this;
 };
 
 PixelJS.Tile.prototype.update = function (elapsedTime, dt) {
@@ -71,4 +70,6 @@ PixelJS.Tile.prototype.draw = function (entity) {
     if (this.loaded) {
         entity.layer.drawImage(this._scaledTile, entity.pos.x, entity.pos.y);
     }
+    
+    return this;
 };
