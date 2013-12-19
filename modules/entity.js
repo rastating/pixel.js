@@ -73,7 +73,7 @@ PixelJS.Entity.prototype._onMouseDown = function (point, button) {
 PixelJS.Entity.prototype._onMouseDownCallback = function (point, button) {
 };
 
-PixelJS.Entity.prototype._onMouseHover = function (point) {
+PixelJS.Entity.prototype._onMouseHover = function (point, isHovering) {
 };
 
 PixelJS.Entity.prototype._onMouseUpCallback = function (point, button) {
@@ -234,15 +234,21 @@ PixelJS.Entity.prototype.onMouseHover = function (callback) {
             if (point.x >= self.pos.x && point.x <= self.pos.x + self.size.width) {
                 if (point.y >= self.pos.y && point.y <= self.pos.y + self.size.height) {
                     if (!self._isHovered) {
-                        self._onMouseHover(point);
+                        self._onMouseHover(point, true);
                         self._isHovered = true;
                     }
                 }
                 else {
+                    if (self._isHovered) {
+                        self._onMouseHover(point, false);
+                    }
                     self._isHovered = false;
                 }
             }
             else {
+                if (self._isHovered) {
+                    self._onMouseHover(point, false);
+                }
                 self._isHovered = false;
             }
         });
