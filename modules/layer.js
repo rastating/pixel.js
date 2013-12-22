@@ -111,8 +111,28 @@ PixelJS.Layer.prototype.draw = function () {
     return this;
 };
 
-PixelJS.Layer.prototype.drawImage = function (img, x, y) {
-    this._backBufferCtx.drawImage(img, x, y);
+PixelJS.Layer.prototype.drawImage = function (img, x, y, rotation, opacity) {
+    if (rotation == undefined || rotation == 0) {
+        this._backBufferCtx.save();
+        
+        if (opacity < 1) {
+            this._backBufferCtx.globalAlpha = opacity;
+        }
+        
+        this._backBufferCtx.drawImage(img, x, y);
+        this._backBufferCtx.restore();
+    }
+    else {
+        this._backBufferCtx.save();
+        this._backBufferCtx.translate(x + (img.width / 2), y + (img.height / 2));
+        this._backBufferCtx.rotate(rotation * Math.PI / 180);
+        if (opacity < 1) {
+            this._backBufferCtx.globalAlpha = opacity;
+        }
+        this._backBufferCtx.drawImage(img, (img.width / 2) * -1, (img.height / 2) * -1);
+        this._backBufferCtx.restore();
+    }
+    
     return this;
 };
 
