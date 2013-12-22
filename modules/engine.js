@@ -28,6 +28,7 @@ PixelJS.Engine = function () {
     this._size = { width: 0, height: 0 };
     this._soundKeys = [];
     this._sounds = {};
+    this._gameLoopCallbacks = [];
 
     var self = this;
     document.onkeydown = function (e) {
@@ -110,6 +111,18 @@ PixelJS.Engine.prototype._checkForCollissions = function () {
 PixelJS.Engine.prototype._displayFPS = false;
 PixelJS.Engine.prototype._fullscreen = false;
 PixelJS.Engine.prototype.maxDeltaTime = 33;
+
+PixelJS.Engine.prototype._registerGameLoopCallback = function (callback) {
+    this._gameLoopCallbacks.push(callback);
+};
+
+PixelJS.Engine.prototype._unregisterGameLoopCallback = function (callback) {
+    for (var i = this._gameLoopCallbacks.length - 1; i >= 0; i--) {
+        if (this._gameLoopCallbacks[i] == callback) {
+            this._gameLoopCallbacks.splice(i, 1);
+        }
+    }
+};
 
 PixelJS.Engine.prototype._toggleFPSLayer = function () {
     if (this._displayFPS) {
@@ -332,6 +345,10 @@ PixelJS.Engine.prototype.run = function (gameLoop) {
         if (!isNaN(self._deltaTime)) {
             for (var i = 0; i < self._layerKeys.length; i++) {
                 self._layers[self._layerKeys[i]].update(elapsedTime, self._deltaTime);
+            }
+            
+            for (var i = 0; i < self._gameLoopCallbacks.length; i++) {
+                self._gameLoopCallbacks[i](elapsedTime, self._deltaTime);
             }
 
             self._checkForCollissions();

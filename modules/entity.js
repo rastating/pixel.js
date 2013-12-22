@@ -183,6 +183,41 @@ PixelJS.Entity.prototype.moveDown = function () {
     return this;
 };
 
+PixelJS.Entity.prototype.moveTo = function (point, time) {
+    time = time === undefined ? 1 : time;
+    var velocityX = (this.pos.x - point.x) / time;
+    var velocityY = (this.pos.y - point.y) / time;
+    var targetIsToTheLeft = point.x < this.pos.x;
+    var targetIsAbove = point.y < this.pos.y;
+    var self = this;
+    
+    this._animateMovement = function (elapsedTime, dt) {
+        dt = dt * 1000; // Convert into milliseconds from fractional seconds.
+        if (targetIsToTheLeft) {
+            self.pos.x -= velocityX * dt;
+        }
+        else {
+            self.pos.x += (velocityX * -1) * dt;
+        }
+        
+        if (targetIsAbove) {
+            self.pos.y -= velocityY * dt;
+        }
+        else {
+            self.pos.y += (velocityY * -1) * dt;
+        }
+        
+        if (((targetIsToTheLeft && self.pos.x <= point.x) || (!targetIsToTheLeft && self.pos.x >= point.x)) && ((targetIsAbove && self.pos.y <= point.y) || (!targetIsAbove && self.pos.y >= point.y))) {
+            self.pos.x = point.x;
+            self.pos.y = point.y;
+            self.layer.engine._unregisterGameLoopCallback(self._animateMovement);
+            self._animateMovement = undefined;
+        }
+    };
+    
+    this.layer.engine._registerGameLoopCallback(this._animateMovement);
+};
+
 PixelJS.Entity.prototype.moveUp = function () {
     if (this.canMoveUp) {
         this.pos.y -= this.velocity.y * this.layer.engine._deltaTime;
