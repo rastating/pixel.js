@@ -183,13 +183,19 @@ PixelJS.Entity.prototype.moveDown = function () {
     return this;
 };
 
-PixelJS.Entity.prototype.moveTo = function (point, time) {
+PixelJS.Entity.prototype.moveTo = function (point, time, cancelPrevious) {
     time = time === undefined ? 1 : time;
+    cancelPrevious = cancelPrevious === undefined ? false : cancelPrevious;
+    
     var velocityX = (this.pos.x - point.x) / time;
     var velocityY = (this.pos.y - point.y) / time;
     var targetIsToTheLeft = point.x < this.pos.x;
     var targetIsAbove = point.y < this.pos.y;
     var self = this;
+    
+    if (cancelPrevious) {
+        self.layer.engine._unregisterGameLoopCallback(self._animateMovement);
+    }
     
     this._animateMovement = function (elapsedTime, dt) {
         dt = dt * 1000; // Convert into milliseconds from fractional seconds.
