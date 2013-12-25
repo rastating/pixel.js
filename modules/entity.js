@@ -19,6 +19,7 @@ PixelJS.Entity = function (layer) {
     this._dragAnchorPoint = { x: 0, y: 0 };
     this.asset = undefined;
     this.layer = layer;
+    this.opacity = 1.0;
     this.pos = { x: 0, y: 0 };
     this.size = { width: 0, height: 0 };
     this.velocity = { x: 0, y: 0 };
@@ -159,6 +160,41 @@ PixelJS.Entity.prototype.draw = function() {
     return this;
 };
 
+PixelJS.Entity.prototype.fadeTo = function (opacity, duration, callback) {
+    duration = duration === undefined ? 1 : duration;
+
+    var animationSpeed = (this.opacity - opacity) / duration;
+    var increasingOpacity = this.opacity < opacity;
+    var self = this;
+    
+    if (self._animateOpacity !== undefined) {
+        self.layer.engine._unregisterGameLoopCallback(self._animateOpacity);
+    }
+    
+    this._animateOpacity = function (elapsedTime, dt) {
+        dt = dt * 1000; // Convert into milliseconds from fractional seconds.
+        
+        if (increasingOpacity) {
+            self.opacity += animationSpeed * dt;
+        }
+        else {
+            self.opacity -= animationSpeed * dt;
+        }
+        
+        if ((self.opacity >= opacity && increasingOpacity) || (self.opacity <= opacity && !increasingOpacity)) {
+            self.opacity = opacity;
+            self.layer.engine._unregisterGameLoopCallback(self._animateOpacity);
+            self._animateOpacity = undefined;
+            if (callback !== undefined) {
+                PixelJS.proxy(callback, self);
+            }
+        }
+    };
+    
+    this.layer.engine._registerGameLoopCallback(this._animateOpacity);
+    return this;
+};
+
 PixelJS.Entity.prototype.moveLeft = function () {
     if (this.canMoveLeft) {
         this.pos.x -= this.velocity.x * this.layer.engine._deltaTime;
@@ -183,9 +219,8 @@ PixelJS.Entity.prototype.moveDown = function () {
     return this;
 };
 
-PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, callback) {
+PixelJS.Entity.prototype.moveTo = function (x, y, duration, callback) {
     duration = duration === undefined ? 1 : duration;
-    cancelPrevious = cancelPrevious === undefined ? false : cancelPrevious;
     
     var velocityX = (this.pos.x - x) / duration;
     var velocityY = (this.pos.y - y) / duration;
@@ -193,7 +228,7 @@ PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, call
     var targetIsAbove = y < this.pos.y;
     var self = this;
     
-    if (cancelPrevious) {
+    if (this._animateMovement !== undefined) {
         self.layer.engine._unregisterGameLoopCallback(self._animateMovement);
     }
     
@@ -225,6 +260,7 @@ PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, call
     };
     
     this.layer.engine._registerGameLoopCallback(this._animateMovement);
+    return this;
 };
 
 PixelJS.Entity.prototype.moveUp = function () {
