@@ -43,6 +43,15 @@ var PixelJS = {
         childClass.prototype.constructor = childClass;
     },
     
+    proxy: function (callback, context, additionalArguments) {
+        if (additionalArguments !== undefined) {
+            callback.apply(context);
+        }
+        else {
+            callback.apply(context, additionalArguments);
+        }
+    },
+    
     Keys: {
         Space: 32,
         Backspace: 8,
