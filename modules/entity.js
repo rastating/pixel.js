@@ -183,14 +183,14 @@ PixelJS.Entity.prototype.moveDown = function () {
     return this;
 };
 
-PixelJS.Entity.prototype.moveTo = function (point, time, cancelPrevious) {
-    time = time === undefined ? 1 : time;
+PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, callback) {
+    duration = duration === undefined ? 1 : duration;
     cancelPrevious = cancelPrevious === undefined ? false : cancelPrevious;
     
-    var velocityX = (this.pos.x - point.x) / time;
-    var velocityY = (this.pos.y - point.y) / time;
-    var targetIsToTheLeft = point.x < this.pos.x;
-    var targetIsAbove = point.y < this.pos.y;
+    var velocityX = (this.pos.x - x) / duration;
+    var velocityY = (this.pos.y - y) / duration;
+    var targetIsToTheLeft = x < this.pos.x;
+    var targetIsAbove = y < this.pos.y;
     var self = this;
     
     if (cancelPrevious) {
@@ -213,11 +213,14 @@ PixelJS.Entity.prototype.moveTo = function (point, time, cancelPrevious) {
             self.pos.y += (velocityY * -1) * dt;
         }
         
-        if (((targetIsToTheLeft && self.pos.x <= point.x) || (!targetIsToTheLeft && self.pos.x >= point.x)) && ((targetIsAbove && self.pos.y <= point.y) || (!targetIsAbove && self.pos.y >= point.y))) {
-            self.pos.x = point.x;
-            self.pos.y = point.y;
+        if (((targetIsToTheLeft && self.pos.x <= x) || (!targetIsToTheLeft && self.pos.x >= x)) && ((targetIsAbove && self.pos.y <= y) || (!targetIsAbove && self.pos.y >= y))) {
+            self.pos.x = x;
+            self.pos.y = y;
             self.layer.engine._unregisterGameLoopCallback(self._animateMovement);
             self._animateMovement = undefined;
+            if (callback !== undefined) {
+                callback(self);
+            }
         }
     };
     
