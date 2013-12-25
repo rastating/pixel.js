@@ -101,12 +101,10 @@ PixelJS.Entity.prototype._setIsClickable = function (val) {
         // If the entity is already registered as a draggable, the mouse event
         // hooks will already be in place and don't need to be re-added.
         if (!this._isDraggable) {
-            this.layer.engine.on('mousedown', function (p, b) {
-                self._onMouseDown(p, b);
-            });
-            this.layer.engine.on('mouseup', function (p, b) {
-                self._onMouseUp(p, b);
-            });
+            this._mousedownHook = function (p, b) { self._onMouseDown(p, b); };
+            this._mouseupHook = function (p, b) { self._onMouseUp(p, b); };
+            this.layer.engine.on('mousedown', this._mousedownHook);
+            this.layer.engine.on('mouseup', this._mouseupHook);
         }
     }
 };
@@ -129,12 +127,10 @@ PixelJS.Entity.prototype._setIsDraggable = function (val) {
         // If the entity is already registered as a clickable, the mouse event
         // hooks will already be in place and don't need to be re-added.
         if (!this._isClickable) {
-            this.layer.engine.on('mousedown', function (p, b) {
-                self._onMouseDown(p, b);
-            });
-            this.layer.engine.on('mouseup', function (p, b) {
-                self._onMouseUp(p, b);
-            });
+            this._mousedownHook = function (p, b) { self._onMouseDown(p, b); };
+            this._mouseupHook = function (p, b) { self._onMouseUp(p, b); };
+            this.layer.engine.on('mousedown', this._mousedownHook);
+            this.layer.engine.on('mouseup', this.mouseupHook);
         }
         
         this.layer._registerDraggable(this);
@@ -153,6 +149,21 @@ PixelJS.Entity.prototype.collidesWith = function (entity) {
         this.pos.x < entity.pos.x + entity.size.width &&
         this.pos.y + this.size.height > entity.pos.y &&
         this.pos.y < entity.pos.y + entity.size.height;
+};
+
+PixelJS.Entity.prototype.dispose = function () {
+    this.layer.removeComponent(this);
+    
+    if (this._isHoverable) {
+        this.layer.engine.off('mousemove', this._mousemoveHook);
+    }
+    
+    if (this.isClickable || this.isDraggable) {
+        this.layer.engine.off('mousedown', this._mousedownHook);
+        this.layer.engine.off('mouseup', this._mouseupHook);
+    }
+    
+    return this;
 };
 
 PixelJS.Entity.prototype.draw = function() {
@@ -310,7 +321,7 @@ PixelJS.Entity.prototype.onMouseDown = function (callback) {
 PixelJS.Entity.prototype.onMouseHover = function (callback) {
     if (!this._isHoverable) {
         var self = this;
-        this.layer.engine.on('mousemove', function (point) {
+        this._mousemoveHook = function (point) {
             if (point.x >= self.pos.x && point.x <= self.pos.x + self.size.width) {
                 if (point.y >= self.pos.y && point.y <= self.pos.y + self.size.height) {
                     if (!self._isHovered) {
@@ -331,7 +342,10 @@ PixelJS.Entity.prototype.onMouseHover = function (callback) {
                 }
                 self._isHovered = false;
             }
-        });
+        };
+        
+        this.layer.engine.on('mousemove', this._mousemoveHook);
+        this._isHoverable = true;
     }
     
     this._onMouseHover = callback;

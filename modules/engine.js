@@ -273,11 +273,6 @@ PixelJS.Engine.prototype.init = function (info) {
     return this;
 };
 
-PixelJS.Engine.prototype.on = function (event, callback) {
-    this._events[event].push(callback);
-    return this;
-};
-
 PixelJS.Engine.prototype.loadAndRun = function (gameLoop) {
     var self = this;
     self.loadScene(function () {
@@ -328,6 +323,21 @@ PixelJS.Engine.prototype.loadSounds = function (callback) {
         }
     }
     
+    return this;
+};
+
+PixelJS.Engine.prototype.off = function (event, callback) {
+    for (var i = this._events[event].length - 1; i >= 0; i--) {
+        if (this._events[event][i] == callback) {
+            this._events[event].splice(i, 1);
+        }
+    }
+
+    return this;
+};
+
+PixelJS.Engine.prototype.on = function (event, callback) {
+    this._events[event].push(callback);
     return this;
 };
 

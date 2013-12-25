@@ -71,9 +71,11 @@ PixelJS.Layer.prototype._registerDraggable = function (draggable) {
     return this;
 };
 
-PixelJS.Layer.prototype.registerCollidable = function (collidable) {
-    if (!PixelJS.existsInArray(collidable, this._collidables)) {
-        this._collidables.push(collidable);
+PixelJS.Layer.prototype._unregisterDraggable = function (draggable) {
+    for (var i = this._draggables.length - 1; i >= 0; i--) {
+        if (this._draggables[i] == draggable) {
+            this._draggables.splice(i, 1);
+        }
     }
     
     return this;
@@ -195,6 +197,44 @@ PixelJS.Layer.prototype.load = function (callback) {
             }
         }
     }
+    return this;
+};
+
+PixelJS.Layer.prototype.removeComponent = function (component) {
+  for (var i = this._components.length - 1; i >= 0; i--) {
+        if (this._components[i] == component) {
+            this._components.splice(i, 1);
+            
+            if (component.isCollidable) {
+                this.unregisterCollidable(component);
+            }
+            
+            if (component.isDraggable) {
+                this._unregisterDraggable(component);
+            }
+        }
+    }
+    
+    return this;
+};
+
+PixelJS.Layer.prototype.unregisterCollidable = function (collidable) {
+    for (var i = this._collidables.length - 1; i >= 0; i--) {
+        if (this._collidables[i] == collidable) {
+            this._collidables.splice(i, 1);
+        }
+    }
+    
+    return this;
+};
+
+PixelJS.Layer.prototype.unregisterCollidable = function (collidable) {
+    for (var i = this._collidables.length - 1; i >= 0; i--) {
+        if (this._collidables[i] == collidable) {
+            this._collidables.splice(i, 1);
+        }
+    }
+    
     return this;
 };
 
