@@ -19,6 +19,7 @@ PixelJS.Entity = function (layer) {
     this._dragAnchorPoint = { x: 0, y: 0 };
     this.asset = undefined;
     this.layer = layer;
+    this.opacity = 1.0;
     this.pos = { x: 0, y: 0 };
     this.size = { width: 0, height: 0 };
     this.velocity = { x: 0, y: 0 };
@@ -100,12 +101,10 @@ PixelJS.Entity.prototype._setIsClickable = function (val) {
         // If the entity is already registered as a draggable, the mouse event
         // hooks will already be in place and don't need to be re-added.
         if (!this._isDraggable) {
-            this.layer.engine.on('mousedown', function (p, b) {
-                self._onMouseDown(p, b);
-            });
-            this.layer.engine.on('mouseup', function (p, b) {
-                self._onMouseUp(p, b);
-            });
+            this._mousedownHook = function (p, b) { self._onMouseDown(p, b); };
+            this._mouseupHook = function (p, b) { self._onMouseUp(p, b); };
+            this.layer.engine.on('mousedown', this._mousedownHook);
+            this.layer.engine.on('mouseup', this._mouseupHook);
         }
     }
 };
@@ -128,12 +127,10 @@ PixelJS.Entity.prototype._setIsDraggable = function (val) {
         // If the entity is already registered as a clickable, the mouse event
         // hooks will already be in place and don't need to be re-added.
         if (!this._isClickable) {
-            this.layer.engine.on('mousedown', function (p, b) {
-                self._onMouseDown(p, b);
-            });
-            this.layer.engine.on('mouseup', function (p, b) {
-                self._onMouseUp(p, b);
-            });
+            this._mousedownHook = function (p, b) { self._onMouseDown(p, b); };
+            this._mouseupHook = function (p, b) { self._onMouseUp(p, b); };
+            this.layer.engine.on('mousedown', this._mousedownHook);
+            this.layer.engine.on('mouseup', this.mouseupHook);
         }
         
         this.layer._registerDraggable(this);
@@ -154,8 +151,58 @@ PixelJS.Entity.prototype.collidesWith = function (entity) {
         this.pos.y < entity.pos.y + entity.size.height;
 };
 
+PixelJS.Entity.prototype.dispose = function () {
+    this.layer.removeComponent(this);
+    
+    if (this._isHoverable) {
+        this.layer.engine.off('mousemove', this._mousemoveHook);
+    }
+    
+    if (this.isClickable || this.isDraggable) {
+        this.layer.engine.off('mousedown', this._mousedownHook);
+        this.layer.engine.off('mouseup', this._mouseupHook);
+    }
+    
+    return this;
+};
+
 PixelJS.Entity.prototype.draw = function() {
     this.asset.draw(this);
+    return this;
+};
+
+PixelJS.Entity.prototype.fadeTo = function (opacity, duration, callback) {
+    duration = duration === undefined ? 1 : duration;
+
+    var animationSpeed = (this.opacity - opacity) / duration;
+    var increasingOpacity = this.opacity < opacity;
+    var self = this;
+    
+    if (self._animateOpacity !== undefined) {
+        self.layer.engine._unregisterGameLoopCallback(self._animateOpacity);
+    }
+    
+    this._animateOpacity = function (elapsedTime, dt) {
+        dt = dt * 1000; // Convert into milliseconds from fractional seconds.
+        
+        if (increasingOpacity) {
+            self.opacity += animationSpeed * dt;
+        }
+        else {
+            self.opacity -= animationSpeed * dt;
+        }
+        
+        if ((self.opacity >= opacity && increasingOpacity) || (self.opacity <= opacity && !increasingOpacity)) {
+            self.opacity = opacity;
+            self.layer.engine._unregisterGameLoopCallback(self._animateOpacity);
+            self._animateOpacity = undefined;
+            if (callback !== undefined) {
+                PixelJS.proxy(callback, self);
+            }
+        }
+    };
+    
+    this.layer.engine._registerGameLoopCallback(this._animateOpacity);
     return this;
 };
 
@@ -183,9 +230,8 @@ PixelJS.Entity.prototype.moveDown = function () {
     return this;
 };
 
-PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, callback) {
+PixelJS.Entity.prototype.moveTo = function (x, y, duration, callback) {
     duration = duration === undefined ? 1 : duration;
-    cancelPrevious = cancelPrevious === undefined ? false : cancelPrevious;
     
     var velocityX = (this.pos.x - x) / duration;
     var velocityY = (this.pos.y - y) / duration;
@@ -193,7 +239,7 @@ PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, call
     var targetIsAbove = y < this.pos.y;
     var self = this;
     
-    if (cancelPrevious) {
+    if (this._animateMovement !== undefined) {
         self.layer.engine._unregisterGameLoopCallback(self._animateMovement);
     }
     
@@ -225,6 +271,7 @@ PixelJS.Entity.prototype.moveTo = function (x, y, duration, cancelPrevious, call
     };
     
     this.layer.engine._registerGameLoopCallback(this._animateMovement);
+    return this;
 };
 
 PixelJS.Entity.prototype.moveUp = function () {
@@ -274,7 +321,7 @@ PixelJS.Entity.prototype.onMouseDown = function (callback) {
 PixelJS.Entity.prototype.onMouseHover = function (callback) {
     if (!this._isHoverable) {
         var self = this;
-        this.layer.engine.on('mousemove', function (point) {
+        this._mousemoveHook = function (point) {
             if (point.x >= self.pos.x && point.x <= self.pos.x + self.size.width) {
                 if (point.y >= self.pos.y && point.y <= self.pos.y + self.size.height) {
                     if (!self._isHovered) {
@@ -295,7 +342,10 @@ PixelJS.Entity.prototype.onMouseHover = function (callback) {
                 }
                 self._isHovered = false;
             }
-        });
+        };
+        
+        this.layer.engine.on('mousemove', this._mousemoveHook);
+        this._isHoverable = true;
     }
     
     this._onMouseHover = callback;

@@ -93,7 +93,7 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
 
 PixelJS.Sprite.prototype.draw = function (entity) {
     if (this.loaded && entity.visible) {
-        entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y);
+        entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y, undefined, entity.opacity);
     }
     
     return this;

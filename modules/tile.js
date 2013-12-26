@@ -68,7 +68,7 @@ PixelJS.Tile.prototype.update = function (elapsedTime, dt) {
     
 PixelJS.Tile.prototype.draw = function (entity) {
     if (this.loaded) {
-        entity.layer.drawImage(this._scaledTile, entity.pos.x, entity.pos.y);
+        entity.layer.drawImage(this._scaledTile, entity.pos.x, entity.pos.y, undefined, entity.opacity);
     }
     
     return this;
