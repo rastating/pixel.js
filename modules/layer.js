@@ -200,6 +200,14 @@ PixelJS.Layer.prototype.load = function (callback) {
     return this;
 };
 
+PixelJS.Layer.prototype.registerCollidable = function (collidable) {
+    if (!PixelJS.existsInArray(collidable, this._collidables)) {
+        this._collidables.push(collidable);
+    }
+    
+    return this;
+};
+
 PixelJS.Layer.prototype.removeComponent = function (component) {
   for (var i = this._components.length - 1; i >= 0; i--) {
         if (this._components[i] == component) {
@@ -212,16 +220,6 @@ PixelJS.Layer.prototype.removeComponent = function (component) {
             if (component.isDraggable) {
                 this._unregisterDraggable(component);
             }
-        }
-    }
-    
-    return this;
-};
-
-PixelJS.Layer.prototype.unregisterCollidable = function (collidable) {
-    for (var i = this._collidables.length - 1; i >= 0; i--) {
-        if (this._collidables[i] == collidable) {
-            this._collidables.splice(i, 1);
         }
     }
     
