@@ -327,9 +327,9 @@ PixelJS.Engine.prototype.loadSounds = function (callback) {
 };
 
 PixelJS.Engine.prototype.off = function (event, callback) {
-    for (var i = this._events[event].length - 1; i >= 0; i--) {
-        if (this._events[event][i] == callback) {
-            this._events[event].splice(i, 1);
+    for (var i = this._events[event.toLowerCase()].length - 1; i >= 0; i--) {
+        if (this._events[event.toLowerCase()][i] == callback) {
+            this._events[event.toLowerCase()].splice(i, 1);
         }
     }
 
@@ -337,7 +337,7 @@ PixelJS.Engine.prototype.off = function (event, callback) {
 };
 
 PixelJS.Engine.prototype.on = function (event, callback) {
-    this._events[event].push(callback);
+    this._events[event.toLowerCase()].push(callback);
     return this;
 };
 
