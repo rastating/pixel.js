@@ -23,6 +23,7 @@ PixelJS.AnimatedSprite.prototype._currentFrame = 0;
 PixelJS.AnimatedSprite.prototype._frameTickCount = 0;
 PixelJS.AnimatedSprite.prototype._isAnimating = true;
 PixelJS.AnimatedSprite.prototype.defaultFrame = 0;
+PixelJS.AnimatedSprite.prototype.hFlip = false;
 PixelJS.AnimatedSprite.prototype.row = 0;
 PixelJS.AnimatedSprite.prototype.speed = 0.2;
 PixelJS.AnimatedSprite.prototype.resetFrame = 0;
@@ -103,7 +104,13 @@ PixelJS.AnimatedSprite.prototype.draw = function (entity) {
             this._currentFrame = this.defaultFrame;   
         }
         
-        entity.layer.drawImage(this.spriteSheet._frameImages[this.row][this._currentFrame], entity.pos.x, entity.pos.y, undefined, entity.opacity);
+        entity.layer.drawImage(this.spriteSheet._frameImages[this.row][this._currentFrame], 
+            entity.pos.x, 
+            entity.pos.y, 
+            undefined, 
+            entity.opacity,
+            this.hFlip
+        );
     }
     
     return this;
