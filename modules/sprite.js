@@ -20,6 +20,8 @@ PixelJS.Sprite = function () {
 
 PixelJS.extend(PixelJS.Sprite, PixelJS.Asset);
 
+PixelJS.Sprite.prototype.hFlip = false;
+PixelJS.Sprite.prototype.rotation = undefined;
 PixelJS.Sprite.prototype.transparencyKey = undefined;
 
 PixelJS.Sprite.prototype._applyTransparencyKey = function (img, transparencyKey) {
@@ -93,7 +95,7 @@ PixelJS.Sprite.prototype.load = function (info, callback) {
 
 PixelJS.Sprite.prototype.draw = function (entity) {
     if (this.loaded && entity.visible) {
-        entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y, undefined, entity.opacity);
+        entity.layer.drawImage(this.image, entity.pos.x, entity.pos.y, this.rotation, entity.opacity);
     }
     
     return this;
