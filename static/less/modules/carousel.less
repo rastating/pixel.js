@@ -1,0 +1,85 @@
+//
+// Carousel
+// --------------------------------------------------
+
+
+.carousel {
+  margin-bottom: 0;
+  .border-radius(5px);
+}
+
+.carousel-inner {
+
+  > .item {
+    // Account for jankitude on images
+    > img,
+    > a > img {
+      .border-radius(5px);
+    }
+    @media (max-width: 480px) {
+      & > img {
+        .border-radius(5px 5px 0 0);
+      }
+    }
+  }
+
+}
+
+// Left/right controls for nav
+// ---------------------------
+
+.carousel-control {
+  position: absolute;
+  top: 45%;
+  font-size: 20px;
+  line-height: 32px;
+  color: @inverse;  
+  background: @carousel-controls-background;
+  text-indent: 1px;
+  .box-sizing();
+  
+  &.left {
+    text-indent: -1px;
+  }
+
+  // Hover/focus state
+  &:hover,
+  &:focus {
+    .opacity(100);
+  }
+}
+
+// Carousel indicator pips
+// -----------------------------
+.carousel-indicators {
+  top: 16px;
+  right: 16px;
+
+  li {
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    background-color: @carousel-controls-background;
+    background-color: rgba(red(@carousel-controls-background), green(@carousel-controls-background), blue(@carousel-controls-background),.5);
+  }
+}
+
+// Caption for text below images
+// -----------------------------
+.carousel-caption {
+  padding: 20px 19px 22px;
+  background: @carousel-background;
+  background: rgba(red(@carousel-background), green(@carousel-background), blue(@carousel-background),.7);
+  .border-radius(0 0 5px 5px);
+
+  h4,
+  p {
+    color: @inverse;
+  }
+  h4 {
+    font-size: @base-font-size * 1.286;
+  }
+  p {
+    font-size: @base-font-size * 1.071;
+  }
+}

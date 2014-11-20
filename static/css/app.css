@@ -1,0 +1,115 @@
+/* -- This combined with the JS in the footer is a hack to resolve responsive issues on IE Mobile 10 -- */
+@-webkit-viewport{width:device-width}
+@-moz-viewport{width:device-width}
+@-ms-viewport{width:device-width}
+@-o-viewport{width:device-width}
+@viewport{width:device-width}
+
+header {
+    width:100%;
+    background: #f2f2f2;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0px 1px 10px #ccc;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+p, li, td {
+    font-size: 13px;
+}
+
+.masthead {
+    text-align:center;
+    padding-top: 25px;
+}
+
+h1.headline {
+    color: rgb(90, 102, 115);
+    display: block;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 119px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    height: 130px;
+    letter-spacing: -2px;
+    line-height: 130px;
+    margin-bottom: 24px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-align: center;
+    vertical-align: baseline;
+}
+
+h1.headline span {
+    color: #00a185;
+}
+
+h1.headline span span {
+    color: #00a185;
+}
+
+.jumbo {
+    margin: 30px 0;
+}
+
+.jumbo .btn-large {
+    padding: 20px 30px;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.jumbo a small {
+    color: #ffffff;
+}
+
+.row.features .col-md-4 h3 {
+    font-size: 20px;
+}
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align: center;
+}
+
+.row.features div h3 {
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition:.5s;
+}
+
+.row.features div:hover h3 {
+    color: #00a185;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.centered {
+    text-align: center;
+}
+
+h3 a {
+    color: #34495E;
+}
+
+.nav.nav-list li ul.nav.nav-list {
+    margin-left: 15px;
+}

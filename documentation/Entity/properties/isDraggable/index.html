@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="E_GFcb4Htcc9n8jioYPpK6OzDQ9WdW3RRjuQkmTeFVE" />
+
+        <title>Pixel.js :: Entity.isDraggable Documentation</title>
+
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="/static/css/flat-ui.css" rel="stylesheet">
+        <link href="/static/css/app.css" rel="stylesheet" />
+        <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="/static/images/favicon.ico">
+        
+        <script src="/static/js/jquery-1.8.3.min.js"></script>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+        <!--[if lt IE 9]>
+          <script src="/static/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header class="masthead">
+            <div class="container">
+                <h1 class="headline">Pixel<span>js</h1>
+                <p class="font-16">A simple and flexible HTML5 and JavaScript powered game engine.</p>
+                <p class="jumbo">
+                    <a href="https://github.com/rastating/pixel.js" target="_blank" class="btn btn-inverse btn-large"><strong>View Project on GitHub</strong></a>
+                    <a href="https://github.com/rastating/pixel.js/releases/download/v0.9b/pixel.js.zip" class="btn btn-primary btn-large"><strong>Download Pixel.js </strong><span style="font-size: 11px;">(v0.9b)</span></a>
+                </p>
+                <div>
+                    <div class="container">
+                        <ul class="list-inline">
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li class="follow-btn">
+                                <iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.1383343979.html#_=1383345305503&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=iamrastating&amp;show_count=true&amp;show_screen_name=true&amp;size=m" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="width: 220px; height: 20px;"></iframe>
+                            </li>
+                            <li class="tweet-btn hidden-phone">
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pixeljs.com" data-text="Check out Pixel.js, a free HTML5 game engine!" data-via="iamrastating" data-hashtags="pixeljs">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        
+                            <li>
+                        
+                            <a href="/">Overview</a>
+                        </li>
+                        
+                        
+                            <li class="dropdown">
+                        
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                Examples
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/examples/coin-collector">Coin Collector</a></li>
+                                <li><a href="/examples/pong">Pong</a></li>
+                            </ul>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/getting-started">Getting Started</a>
+                        </li>
+                        
+                        
+                            <li class="active">
+                        
+                            <a href="/documentation">Documentation</a>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/faq">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4 hidden-xs">
+            <ul class="nav nav-list nav-list-vivid">
+                <li class="nav-header">Classes &amp; Modules</li>
+                
+                    
+                        <li><a href="/documentation/AnimatedSprite">AnimatedSprite</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Asset">Asset</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Engine">Engine</a></li>
+                    
+                
+                    
+                        <li class="active">
+                            <a href="/documentation/Entity">Entity</a>
+                            
+                                <ul class="nav nav-list nav-list-vivid">
+                                    <li class="nav-header">
+                                        Properties
+                                    </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/asset">asset</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/canMoveDown">canMoveDown</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/canMoveLeft">canMoveLeft</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/canMoveRight">canMoveRight</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/canMoveUp">canMoveUp</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/dragButton">dragButton</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/isClickable">isClickable</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/isCollidable">isCollidable</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/isDraggable">isDraggable</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/isDragging">isDragging</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/layer">layer</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/opacity">opacity</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/pos">pos</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/size">size</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/velocity">velocity</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/properties/visible">visible</a>
+                                            
+                                        </li>
+                                    
+                                </ul>
+                            
+                            
+                                <ul class="nav nav-list nav-list-vivid">
+                                    <li class="nav-header">
+                                        Methods
+                                    </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/addToLayer">addToLayer</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/collidesWith">collidesWith</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/dispose">dispose</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/draw">draw</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/fadeTo">fadeTo</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/moveDown">moveDown</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/moveLeft">moveLeft</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/moveRight">moveRight</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/moveTo">moveTo</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/moveUp">moveUp</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onCollide">onCollide</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onDrag">onDrag</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onDrop">onDrop</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onMouseDown">onMouseDown</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onMouseHover">onMouseHover</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/onMouseUp">onMouseUp</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/Entity/methods/update">update</a>
+                                            
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                
+                    
+                        <li><a href="/documentation/FPSCounter">FPSCounter</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Layer">Layer</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/PixelJS">PixelJS</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Player">Player</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Sound">Sound</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Sprite">Sprite</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/SpriteSheet">SpriteSheet</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Tile">Tile</a></li>
+                    
+                
+            </ul>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12">
+            
+                
+                    <h3>Entity.isDraggable Property</h3>
+                
+            
+                
+            <p>
+                A boolean value indicating whether the entity can be dragged by the mouse.
+            </p>
+
+            
+            
+            
+            
+            
+
+            
+            
+            
+            
+            
+                <h4>Examples</h4>
+                
+                    <script src="https://gist.github.com/rastating/3f136fc167c718ae81c8.js"></script>
+                
+            
+            
+            <h4>Supported Platforms</h4>
+            <p>
+                Google Chrome, Mozilla FireFox, Internet Explorer 9+, Opera, Safari.
+            </p>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+            <footer class="footer" style="border-top: 2px solid #e1e4e7; margin-top: 25px; text-align: right; padding-top: 15px;">
+                <p>
+                    Copyright 2013-2014 <a href="https://twitter.com/iamrastating" target="_blank">rastating</a> - Released under the <a href="http://www.gnu.org/licenses/gpl-faq.html" target="_blank">GNU General Public License</a>
+                </p>
+            </footer>
+        
+        </div>
+        
+        <script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/bootstrap-select.js"></script>
+        <script src="/static/js/bootstrap-switch.js"></script>
+        <script src="/static/js/flatui-checkbox.js"></script>
+        <script src="/static/js/flatui-radio.js"></script>
+        <script src="/static/js/jquery.tagsinput.js"></script>
+        <script src="/static/js/jquery.placeholder.js"></script>
+        <script src="/static/js/pixel.min.js"></script>
+
+        <script type="text/javascript">
+            if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(
+                        "@-ms-viewport{width:auto!important}"
+                    )
+                );
+                document.getElementsByTagName("head")[0].
+                    appendChild(msViewportStyle);
+            }
+        </script>
+    </body>
+</html>

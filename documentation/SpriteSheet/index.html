@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="E_GFcb4Htcc9n8jioYPpK6OzDQ9WdW3RRjuQkmTeFVE" />
+
+        <title>Pixel.js :: SpriteSheet Documentation</title>
+
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="/static/css/flat-ui.css" rel="stylesheet">
+        <link href="/static/css/app.css" rel="stylesheet" />
+        <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="/static/images/favicon.ico">
+        
+        <script src="/static/js/jquery-1.8.3.min.js"></script>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+        <!--[if lt IE 9]>
+          <script src="/static/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header class="masthead">
+            <div class="container">
+                <h1 class="headline">Pixel<span>js</h1>
+                <p class="font-16">A simple and flexible HTML5 and JavaScript powered game engine.</p>
+                <p class="jumbo">
+                    <a href="https://github.com/rastating/pixel.js" target="_blank" class="btn btn-inverse btn-large"><strong>View Project on GitHub</strong></a>
+                    <a href="https://github.com/rastating/pixel.js/releases/download/v0.9b/pixel.js.zip" class="btn btn-primary btn-large"><strong>Download Pixel.js </strong><span style="font-size: 11px;">(v0.9b)</span></a>
+                </p>
+                <div>
+                    <div class="container">
+                        <ul class="list-inline">
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li class="follow-btn">
+                                <iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.1383343979.html#_=1383345305503&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=iamrastating&amp;show_count=true&amp;show_screen_name=true&amp;size=m" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="width: 220px; height: 20px;"></iframe>
+                            </li>
+                            <li class="tweet-btn hidden-phone">
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pixeljs.com" data-text="Check out Pixel.js, a free HTML5 game engine!" data-via="iamrastating" data-hashtags="pixeljs">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        
+                            <li>
+                        
+                            <a href="/">Overview</a>
+                        </li>
+                        
+                        
+                            <li class="dropdown">
+                        
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                Examples
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/examples/coin-collector">Coin Collector</a></li>
+                                <li><a href="/examples/pong">Pong</a></li>
+                            </ul>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/getting-started">Getting Started</a>
+                        </li>
+                        
+                        
+                            <li class="active">
+                        
+                            <a href="/documentation">Documentation</a>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/faq">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4 hidden-xs">
+            <ul class="nav nav-list nav-list-vivid">
+                <li class="nav-header">Classes &amp; Modules</li>
+                
+                    
+                        <li><a href="/documentation/AnimatedSprite">AnimatedSprite</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Asset">Asset</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Engine">Engine</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Entity">Entity</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/FPSCounter">FPSCounter</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Layer">Layer</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/PixelJS">PixelJS</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Player">Player</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Sound">Sound</a></li>
+                    
+                
+                    
+                        <li><a href="/documentation/Sprite">Sprite</a></li>
+                    
+                
+                    
+                        <li class="active">
+                            <a href="/documentation/SpriteSheet">SpriteSheet</a>
+                            
+                                <ul class="nav nav-list nav-list-vivid">
+                                    <li class="nav-header">
+                                        Properties
+                                    </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/SpriteSheet/properties/frameCount">frameCount</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/SpriteSheet/properties/frameSize">frameSize</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                            
+                                                <a href="/documentation/Asset/properties/loaded">loaded</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/SpriteSheet/properties/rowCount">rowCount</a>
+                                            
+                                        </li>
+                                    
+                                </ul>
+                            
+                            
+                                <ul class="nav nav-list nav-list-vivid">
+                                    <li class="nav-header">
+                                        Methods
+                                    </li>
+                                    
+                                        <li>
+                                            
+                                                <a href="/documentation/Asset/methods/draw">draw</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                              
+                                                <a href="/documentation/SpriteSheet/methods/load">load</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                            
+                                                <a href="/documentation/Asset/methods/onLoad">onLoad</a>
+                                            
+                                        </li>
+                                    
+                                        <li>
+                                            
+                                                <a href="/documentation/Asset/methods/prepare">prepare</a>
+                                            
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                
+                    
+                        <li><a href="/documentation/Tile">Tile</a></li>
+                    
+                
+            </ul>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12">
+            
+                <h3>SpriteSheet Class</h3>
+            
+                
+            <p>
+                Represents a sprite sheet that can be used to access individual frames of a sheet.
+            </p>
+
+            
+                <h4>Inheritance Hierarchy</h4>
+                <ul>
+                    
+                        
+                            <li><a href="/documentation/Asset">Asset</a></li>
+                        
+                    
+                        
+                            <li>SpriteSheet</li>
+                        
+                    
+                </ul>
+            
+            
+            
+            
+            
+                <h4>Properties</h4>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr>
+                                  
+                                   <td><a href="/documentation/SpriteSheet/properties/frameCount">frameCount</a></td>
+                                
+                                
+                                    
+                                        <td>The number of frames in each row.</td>
+                                    
+                                
+                            </tr>
+                        
+                            <tr>
+                                  
+                                   <td><a href="/documentation/SpriteSheet/properties/frameSize">frameSize</a></td>
+                                
+                                
+                                    
+                                        <td>An object containing two properties, <code>width</code> and <code>height</code>, which represent the size of an individual frame in the sprite sheet.</td>
+                                    
+                                
+                            </tr>
+                        
+                            <tr>
+                                
+                                    <td><a href="/documentation/Asset/properties/loaded">loaded</a></td>
+                                
+                                
+                                    <td>A boolean value indicating whether or not the asset has been loaded. (Inherited from <a href="/documentation/Asset">Asset</a>.)</td>
+                                
+                            </tr>
+                        
+                            <tr>
+                                  
+                                   <td><a href="/documentation/SpriteSheet/properties/rowCount">rowCount</a></td>
+                                
+                                
+                                    
+                                        <td>The number of rows in the sheet.</td>
+                                    
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            
+
+            
+                <h4>Methods</h4>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            <tr>
+                                
+                                    <td><a href="/documentation/Asset/methods/draw">draw</a></td>
+                                
+                                
+                                
+                                    <td>An abstract method with the purpose of drawing the asset to the <a href="/documentation/Layer">Layer</a> that the owning <a href="/documentation/Entity">Entity</a> exists on. (Inherited from <a href="/documentation/Asset">Asset</a>.)</td>
+                                
+                            </tr>
+                        
+                            <tr>
+                                
+                                    <td><a href="/documentation/SpriteSheet/methods/load">load</a></td>
+                                
+                                
+                                
+                                    
+                                        <td>Loads the asset. (Overrides <a href="/documentation/Asset/methods/load">Asset.load</a>.)</td>
+                                    
+                                
+                            </tr>
+                        
+                            <tr>
+                                
+                                    <td><a href="/documentation/Asset/methods/onLoad">onLoad</a></td>
+                                
+                                
+                                
+                                    <td>The function to be called when the asset has finished loading. (Inherited from <a href="/documentation/Asset">Asset</a>.)</td>
+                                
+                            </tr>
+                        
+                            <tr>
+                                
+                                    <td><a href="/documentation/Asset/methods/prepare">prepare</a></td>
+                                
+                                
+                                
+                                    <td>Prepare the information required to load the asset. (Inherited from <a href="/documentation/Asset">Asset</a>.)</td>
+                                
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            
+            
+            
+            
+            
+            
+            <h4>Supported Platforms</h4>
+            <p>
+                Google Chrome, Mozilla FireFox, Internet Explorer 9+, Opera, Safari.
+            </p>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+            <footer class="footer" style="border-top: 2px solid #e1e4e7; margin-top: 25px; text-align: right; padding-top: 15px;">
+                <p>
+                    Copyright 2013-2014 <a href="https://twitter.com/iamrastating" target="_blank">rastating</a> - Released under the <a href="http://www.gnu.org/licenses/gpl-faq.html" target="_blank">GNU General Public License</a>
+                </p>
+            </footer>
+        
+        </div>
+        
+        <script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/bootstrap-select.js"></script>
+        <script src="/static/js/bootstrap-switch.js"></script>
+        <script src="/static/js/flatui-checkbox.js"></script>
+        <script src="/static/js/flatui-radio.js"></script>
+        <script src="/static/js/jquery.tagsinput.js"></script>
+        <script src="/static/js/jquery.placeholder.js"></script>
+        <script src="/static/js/pixel.min.js"></script>
+
+        <script type="text/javascript">
+            if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(
+                        "@-ms-viewport{width:auto!important}"
+                    )
+                );
+                document.getElementsByTagName("head")[0].
+                    appendChild(msViewportStyle);
+            }
+        </script>
+    </body>
+</html>

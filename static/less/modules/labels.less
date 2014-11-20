@@ -1,0 +1,48 @@
+//
+// Labels
+// --------------------------------------------------
+
+.label {  
+  font-size: 72%;
+  font-weight: normal;
+  padding: .15em .5em .2em;
+  
+  // Add hover effects, but only for links
+  &[href] {
+    &:hover,
+    &:focus {
+      color: @label-link-hover-color;
+    }
+  }
+}
+
+// Colors
+// Contextual variations (linked labels get darker on :hover)
+
+.label-default {
+	.label-variant(@label-default-bg, @label-default-bg-hover, @label-default-text-color);
+}
+
+.label-inverse {
+	.label-variant(@label-inverse-bg, @label-inverse-bg-hover);
+}
+
+.label-success {
+	.label-variant(@label-success-bg, @label-success-bg-hover);
+}
+
+.label-important {
+	.label-variant(@label-important-bg, @label-important-bg-hover);
+}
+
+.label-warning {
+	.label-variant(@label-warning-bg, @label-warning-bg-hover);
+}
+
+.label-info {
+	.label-variant(@label-info-bg, @label-info-bg-hover);
+}
+
+.label-primary {
+	.label-variant(@label-primary-bg, @label-primary-bg-hover);
+}

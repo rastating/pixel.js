@@ -1,0 +1,98 @@
+//
+// Modals
+// --------------------------------------------------
+
+// Background
+.modal-backdrop {
+  z-index: @modal-backdrop-zindex;
+  background-color: @modal-backdrop-background;
+  
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
+  .opacity(95);
+}
+
+// Base modal
+.modal {
+  z-index: @modal-zindex;
+  width: 624px;
+  margin-left: -312px;
+  background-color: @modal-background;
+  border: 2px solid @modal-border-color;
+  .border-radius(7px);
+  .background-clip(border-box);
+  .box-shadow(-14px 14px 0 0 rgba(0,0,0,0.35));
+  
+  @media (max-width: 767px) {
+  	& {
+  		width: auto;
+  		margin: 0;
+  	}
+  }
+  @media (max-width: 480px) {
+  	& {
+  		.box-shadow(none);
+  	}
+  }
+}
+.modal-header {
+  padding: 17px 19px 15px 24px;
+  border-bottom: 1px solid @modal-border-color;
+  
+  // Close icon
+  .close {
+    margin: 5px 0 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1;
+    color: @base;
+  }
+  // Heading
+  h3 {
+    font-size: 24px;
+  }
+}
+
+// Body (where all modal content resides)
+.modal-body {
+  padding: 20px 24px 20px;
+  
+  p {
+    font-size: @base-font-size * 1.143; // ~16px
+    line-height: @base-line-height * 1.32; // ~26px
+  }
+}
+
+// Footer (for actions)
+.modal-footer {
+  padding: 19px 22px 20px;
+  background-color: @modal-footer-background;
+  border-top: none;
+  .border-radius(0 0 7px 7px);
+  .box-shadow(none);
+
+  .btn + .btn {
+    margin-left: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    & {
+      .btn {
+        display: block;
+        min-width: auto;
+        margin-bottom: 15px;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .btn + .btn {
+        margin-left: 0;
+      }
+    }
+  }  
+}

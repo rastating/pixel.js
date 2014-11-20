@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="E_GFcb4Htcc9n8jioYPpK6OzDQ9WdW3RRjuQkmTeFVE" />
+
+        <title>Pixel.js :: Getting Started</title>
+
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="/static/css/flat-ui.css" rel="stylesheet">
+        <link href="/static/css/app.css" rel="stylesheet" />
+        <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="/static/images/favicon.ico">
+        
+        <script src="/static/js/jquery-1.8.3.min.js"></script>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+        <!--[if lt IE 9]>
+          <script src="/static/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header class="masthead">
+            <div class="container">
+                <h1 class="headline">Pixel<span>js</h1>
+                <p class="font-16">A simple and flexible HTML5 and JavaScript powered game engine.</p>
+                <p class="jumbo">
+                    <a href="https://github.com/rastating/pixel.js" target="_blank" class="btn btn-inverse btn-large"><strong>View Project on GitHub</strong></a>
+                    <a href="https://github.com/rastating/pixel.js/releases/download/v0.9b/pixel.js.zip" class="btn btn-primary btn-large"><strong>Download Pixel.js </strong><span style="font-size: 11px;">(v0.9b)</span></a>
+                </p>
+                <div>
+                    <div class="container">
+                        <ul class="list-inline">
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li>
+                                <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=rastating&amp;repo=pixel.js&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+                            </li>
+                            <li class="follow-btn">
+                                <iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.1383343979.html#_=1383345305503&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=iamrastating&amp;show_count=true&amp;show_screen_name=true&amp;size=m" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="width: 220px; height: 20px;"></iframe>
+                            </li>
+                            <li class="tweet-btn hidden-phone">
+                                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pixeljs.com" data-text="Check out Pixel.js, a free HTML5 game engine!" data-via="iamrastating" data-hashtags="pixeljs">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        
+                            <li>
+                        
+                            <a href="/">Overview</a>
+                        </li>
+                        
+                        
+                            <li class="dropdown">
+                        
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                Examples
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/examples/coin-collector">Coin Collector</a></li>
+                                <li><a href="/examples/pong">Pong</a></li>
+                            </ul>
+                        </li>
+                        
+                        
+                            <li class="active">
+                        
+                            <a href="/getting-started">Getting Started</a>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/documentation">Documentation</a>
+                        </li>
+                        
+                        
+                            <li>
+                        
+                            <a href="/faq">FAQ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+    <div class="row">
+        <div class="col-md-3 col-sm-4">
+            <ul class="nav nav-list nav-list-vivid">
+            <li class="nav-header">Sections</li>
+              <li>
+                <a href="#prerequisites">Prerequisites</a>
+              </li>
+
+              <li><a href="#setting-up-a-skeleton-file">Setting up a skeleton file</a></li>
+              <li><a href="#setting-up-the-engine-and-game-loop">Setting up the engine and game loop</a></li>
+              <li><a href="#setting-up-the-assets-directory">Setting up the assets directory</a></li>
+              <li><a href="#adding-a-background-tile">Adding a background tile</a></li>
+              <li><a href="#adding-a-player">Adding a player</a></li>
+              <li><a href="#adding-a-sound-effect-and-a-collidable-object">Adding a sound effect and a collidable object</a></li>
+              <li><a href="#adding-a-score">Adding a score</a></li>
+              <li><a href="#finished-code">Finished Code</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9 col-sm-8">
+            <h3><a id="prerequisites">Prerequisites</a></h3>
+            <p>
+                The only requirement for Pixel.js is that you use a server to access the HTML file that we create in this guide. Due to security policies in some browsers (Chrome and Internet Explorer), certain aspects of the HTML5 functionality that Pixel.js utilises will not work if you try to run the file locally (i.e. by double clicking on your file from your file system). 
+            </p>
+            
+            <h3><a id="setting-up-a-skeleton-file">Setting up a skeleton file</a></h3>
+            <p>
+                At bare minimum Pixel.js requires two things in your skeleton file:
+                <ul>
+                    <li>Pixel.js to be included in your file</li>
+                    <li>A container in which the game will be displayed</li>
+                </ul>
+            </p>
+            <script src="https://gist.github.com/rastating/9317d4b58a2fdc9424bc.js"></script>
+            <p>
+                The container in the snippet above is the div element with the ID of game_container. This container is where our scene will be drawn. It should be noted, the container does not have to be a div element; it can be any <a href="https://developer.mozilla.org/en-US/docs/HTML/Block-level_elements" target="_blank">block-level element</a> you want.
+            </p>
+            
+            <h3><a id="setting-up-the-engine-and-game-loop">Setting up the engine and game loop</a></h3>
+            <p>
+                Now that we have our skeleton file setup we can jump in and start creating the game! Create a new file entitled &quot;game.js&quot; and include it in the skeleton file previously created and add the following code:
+            </p>
+            <script src="https://gist.github.com/rastating/81e750ec0973890a2e18.js"></script>
+            <p>
+                The first thing we do is create a new Engine object which allows us to define required information, such as the ID of the container that we will draw our scene to, and the width and height of the scene.
+            </p>
+            <p>
+                After the engine has been setup, we then call the loadAndRun method of the Engine object and pass through an anonymous function to it; this will be our game loop. 
+            </p>
+            <p>
+                Although this game loop will be familiar to existing game developers, the purpose of this should be clarified for newcomers. When writing games, you usually have a loop (such as the one in the above code) which will be called each frame of the game. In that loop you need to know the amount of time that has passed since you last rendered a frame; this value is passed via the dt parameter (a.k.a delta time).
+            </p>
+            <p>
+                The reason we need to know the time that has passed between rendering frames is so that if need be, we can compensate for a drop in frame rate . For the most part, your need for it will simply be to update what is happening in your game and running your game logic (for example checking to see if a player has died, if they've reached a high score etc.) as Pixel.js contains a number of entities and assets that handle this for you.
+            </p>
+            
+            <h3><a id="setting-up-the-assets-directory">Setting up the assets directory</a></h3>
+            <p>
+                The assets (i.e. media files) that your game will utilise need to be placed within the assets directory. By default, the assets directory is a directory named &quot;assets&quot; that is in the same directory as your HTML file. If for some reason you need to change the location of the assets directory, this can be set in code by setting the value of the PixelJS.assetPath property.
+            </p>
+            <p>
+                For example, if we wanted to set our assets directory to be located inside a directory called &quot;static&quot; which is in our root directory, we would add <code style="font-size: 110%;">PixelJS.assetPath = '/static/assets';</code> to the game.js file. For the purpose of this guide, we will assume that the assets directory is within the same directory as the HTML file.
+            </p>
+            <p>
+                Once you have decided on where the assets directory is going to reside, you need to create the following directories inside it (or at minimum the ones you intend to use):
+                <ul>
+                    <li>sounds</li>
+                    <li>sprite_sheets</li>
+                    <li>sprites</li>
+                    <li>tiles</li>
+                </ul>
+            </p>
+            <p>
+                For this example, we will be using a sound, two sprite sheets and one tile. <a href="/static/misc/example_assets.zip">Click Here</a> to download the required files.
+            </p>
+            
+            <h3><a id="adding-a-background-tile">Adding a background tile</a></h3>
+            <p>
+                Once you have extracted the assets from the previous step into your project, add the following code before the call to game.loadAndRun:
+            </p>
+            <script src="https://gist.github.com/rastating/4b7d778f2da42f9a950f.js"></script>
+            <p>
+                We start off here by creating a new layer called &quot;background&quot;. In Pixel.js, all your entities are added to a layer, which allows us to boost performance and allows you to control the positioning on the Z-axis of your components.
+            </p>
+            <p>
+                <em>n.b. an entity in Pixel.js is an object which represents a component within the game, such as collectibles and players.</em>
+            </p>
+            <p>
+                Once we have created the background layer, we use it to create a new entity, which will represent our grass tile. As we want this tile to span the entire background, we set its position to be at 0, 0 (i.e. the top left corner), and set the width and height to be 800x600; the same as our game scene.
+            </p>
+            <p>
+                As well as setting up our background tile, we also set the static property of the background layer to be true. Whenever a layer is used that doesn't have any objects which move or animate, the static property should be set to true to indicate that we only need to draw it once.
+            </p>
+            <p>
+                By calling the prepare method on the asset, we are specifying the information that asset needs to load when the loadAndRun method is called later. The loadAndRun method will handle loading all the assets that are prepared before the game starts to ensure no errors occur.
+            </p>
+            
+            <h3><a id="adding-a-player">Adding a player</a></h3>
+            <p>
+                One of the built in entities in Pixel.js is the Player entity. This entity handles keyboard input for you and will move your character around on screen as you press the directional keys. The asset that we will assign to this entity is an animated sprite asset. Animated sprites load a sprite sheet and will animate through the sheet for you with the details you pass through to the prepare method.
+            </p>
+            <p>
+                To add our player to the game, add the following code after the initialisation of the grass tile:
+            </p>
+            <script src="https://gist.github.com/rastating/38f904bdc7558514a713.js"></script>
+            <p>
+                We start off as we did in the previous section, by creating a new layer, this time for the players. We then create our player object and then add it to the player layer.
+            </p>
+            <p>
+                Once our player is on the appropriate layer, we then setup the player specific data such as the position, size and velocity.
+            </p>
+            <p>
+                <em>
+                    n.b. the player's velocity is how fast it will move along the X and Y axis, so in this case, we have assigned it the same movement speed when moving both horizontally and vertically.
+                </em>
+            </p>
+            <p>
+                After the player information is setup, we then prepare the asset to be loaded. For the animated sprite assets, we pass through the name of the asset as we had done previously along with four properties specific to animated sprites.
+            </p>
+            <p>
+                As animated sprites are using a sprite sheet, we need to define how many rows and frames this sprite sheet consists of, the speed at which it should animate between the different frames and the frame it should display if not animating (i.e. the defaultFrame property).
+            </p>
+            <p>
+                The sprite sheet we are loading in the above code is the one that can be seen below.
+            </p>
+            <p>
+                <img src="/static/examples/coin_collector/sprite_sheets/char.png" class="img-polaroid" />
+            </p>
+            <p>
+                As you can see, we have three frames for each row, which when animated through will make the character appear to be walking.
+            </p>
+            <p>
+                The animated sprite assets let you specify which row the frames should toggle between, however the player entity handles that for us behind the scenes so that if the character is moving down we use the first row, if the character is moving left we use the second row etc. If you wish to use a different sprite sheet with the player entity, simply make sure the rows are in this same format.
+            </p>
+            
+            <h3><a id="adding-a-sound-effect-and-a-collidable-object">Adding a sound effect and a collidable object</a></h3>
+            <p>
+                Now that we have a player that we can move around our scene, it's time to add something for them to collect! The first thing we need to do is create a new layer for our collectables and create an entity that will represent a coin; do this by adding the following code:
+            </p>
+            <script src="https://gist.github.com/rastating/d4041055a40a7c0fc88a.js"></script>
+            <p>
+                As you can see, we are following the same convention we did with our previous player object but assigning the asset to a generic entity instead as it doesn't have to be controllable by the user.
+            </p>
+            <p>
+                Now, we'll load the sound effect that should play when the player collects a coin and add the code to detect when the coin and player are colliding.
+            </p>
+            <script src="https://gist.github.com/rastating/d20658ecead2d7358c4f.js"></script>
+            <p>
+                The collectSound object is created in the same way as our previous objects, we simply call the prepare method with the asset name. Once that is loaded we setup our onCollide callback for the player object created earlier and register both the coin and player entities as collidable objects on their respective layers.
+            </p>
+            <p>
+                The onCollide callback is fired whenever another entity that is registered as collidable collides with the entity. As can be seen in the code sample, this callback passes through the entity that it collided with, allowing us to check which object the player is colliding with.
+            </p>
+            <p>
+                If the entity the player has collided with is the coin then we play the collection sound and generate a new random position for the coin to appear in.
+            </p>
+            
+            <h3><a id="adding-a-score">Adding a score</a></h3>
+            <p>
+                The final step to our game is to draw the score to the screen as the user picks up coins. To draw text in Pixel.js we simply call the drawText method of a layer object and specify the text we want to draw, the X and Y coordinates of where it should be drawn as well as the style information.
+            </p>
+            <p>
+                First of all we will need to create a variable to store our score in and create the score layer. To do this, add the following code:
+            </p>
+            <script src="https://gist.github.com/rastating/83b3391979714c5932c6.js"></script>
+            <p>
+                Now that our layer is setup, we simply need to make sure that the scoreLayer is redrawn every time the score is increased and then draw the new text to the screen. To do this, we add the following code to the onCollide callback after we generate a new position for the coin:
+            </p>
+            <script src="https://gist.github.com/rastating/37c01d087e6e5c58fc3e.js"></script>
+            <p>
+                The first parameter to drawText is the text we want to draw (in this case the score). The second and third are the X and Y coordinates to place the text at. The fourth is the font that should be used, the fifth is the colour and the final parameter is how to align the text (left, center or right).
+            </p>
+            
+            <h3><a id="finished-code">Finished Code</a></h3>
+            <p>
+                The game is now finished in a mere 85 lines of code! The finished code now looks like this:
+            </p>
+            <h4>HTML</h4>
+            <script src="https://gist.github.com/rastating/9317d4b58a2fdc9424bc.js"></script>
+            
+            <h4>JavaScript</h4>
+            <script src="https://gist.github.com/rastating/1f838a1fc6ee4a3e2ee4.js"></script>
+        </div>
+    </div>
+    
+            <footer class="footer" style="border-top: 2px solid #e1e4e7; margin-top: 25px; text-align: right; padding-top: 15px;">
+                <p>
+                    Copyright 2013-2014 <a href="https://twitter.com/iamrastating" target="_blank">rastating</a> - Released under the <a href="http://www.gnu.org/licenses/gpl-faq.html" target="_blank">GNU General Public License</a>
+                </p>
+            </footer>
+        
+        </div>
+        
+        <script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/bootstrap-select.js"></script>
+        <script src="/static/js/bootstrap-switch.js"></script>
+        <script src="/static/js/flatui-checkbox.js"></script>
+        <script src="/static/js/flatui-radio.js"></script>
+        <script src="/static/js/jquery.tagsinput.js"></script>
+        <script src="/static/js/jquery.placeholder.js"></script>
+        <script src="/static/js/pixel.min.js"></script>
+
+        <script type="text/javascript">
+            if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                var msViewportStyle = document.createElement("style");
+                msViewportStyle.appendChild(
+                    document.createTextNode(
+                        "@-ms-viewport{width:auto!important}"
+                    )
+                );
+                document.getElementsByTagName("head")[0].
+                    appendChild(msViewportStyle);
+            }
+        </script>
+    </body>
+</html>
+
