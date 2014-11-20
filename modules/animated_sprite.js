@@ -22,10 +22,19 @@ PixelJS.extend(PixelJS.AnimatedSprite, PixelJS.Sprite);
 PixelJS.AnimatedSprite.prototype._currentFrame = 0;
 PixelJS.AnimatedSprite.prototype._frameTickCount = 0;
 PixelJS.AnimatedSprite.prototype._isAnimating = true;
+PixelJS.AnimatedSprite.prototype._onAnimationComplete = undefined;
 PixelJS.AnimatedSprite.prototype.defaultFrame = 0;
+PixelJS.AnimatedSprite.prototype.lastFrame = 0;
+PixelJS.AnimatedSprite.prototype.loop = true;
 PixelJS.AnimatedSprite.prototype.row = 0;
 PixelJS.AnimatedSprite.prototype.speed = 0.2;
-PixelJS.AnimatedSprite.prototype.resetFrame = 0;
+
+Object.defineProperty(PixelJS.AnimatedSprite.prototype, "resetFrame", {
+    get: function () { return this.lastFrame; },
+    set: function (value) { this.lastFrame = value; },
+    configurable: false,
+    enumerable: true
+});
 
 Object.defineProperty(PixelJS.AnimatedSprite.prototype, "isAnimating", {
     get: function () { return this._isAnimating; },
@@ -90,6 +99,15 @@ PixelJS.AnimatedSprite.prototype.draw = function (entity) {
                 this._frameTickCount += entity.layer.engine._deltaTime * 1000;
                 if (this._frameTickCount >= this.speed) {
                     this._frameTickCount = 0;
+                    if (!this.loop) {
+                        if (this.resetFrame < 1 && this._currentFrame === this.spriteSheet.frameCount - 1) {
+                            this._isAnimating = false;
+                        }
+                        else if (this.resetFrame >= 1 && this._currentFrame >= this.resetFrame) {
+                            this._isAnimating = false;
+                        }
+                    }
+
                     if (this.resetFrame < 1) {
                         this._currentFrame = this._currentFrame == this.spriteSheet.frameCount - 1 ? 0 : this._currentFrame + 1;
                     }
