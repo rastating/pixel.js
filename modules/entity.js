@@ -130,7 +130,7 @@ PixelJS.Entity.prototype._setIsDraggable = function (val) {
             this._mousedownHook = function (p, b) { self._onMouseDown(p, b); };
             this._mouseupHook = function (p, b) { self._onMouseUp(p, b); };
             this.layer.engine.on('mousedown', this._mousedownHook);
-            this.layer.engine.on('mouseup', this.mouseupHook);
+            this.layer.engine.on('mouseup', this._mouseupHook);
         }
         
         this.layer._registerDraggable(this);
