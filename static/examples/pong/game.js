@@ -4,10 +4,10 @@ document.onreadystatechange = function () {
         var ballIsMovingLeft = true;
         var ballIsMovingDown = true;
         var score = { player: 0, computer: 0 };
-        
+
         // Setup a custom assets path
-        PixelJS.assetPath = '/static/examples/pong';
-        
+        PixelJS.assetPath = '/pixel.js/static/examples/pong';
+
         var game = new PixelJS.Engine();
         game.init({
             container: 'pixeljs',
@@ -20,12 +20,12 @@ document.onreadystatechange = function () {
         var backgroundLayer = game.createLayer("background");
         var scoreLayer = game.createLayer("score");
         var playerLayer = game.createLayer("players");
-        
+
         // Set the background and score layers to static to prevent
         // unrequired redrawing.
         backgroundLayer.static = true;
         scoreLayer.static = true;
-        
+
         // Setup the background image of the game.
         var background = backgroundLayer.createEntity();
         background.pos = { x: 0, y: 0 };
@@ -37,7 +37,7 @@ document.onreadystatechange = function () {
                 height: 600
             }
         });
-        
+
         // Setup the walls which the ball can bounce off.
         var topWall = backgroundLayer.createEntity();
         topWall.pos = { x: 0, y: 0 };
@@ -47,7 +47,7 @@ document.onreadystatechange = function () {
             name: 'top-wall.png',
             size: topWall.size
         });
-        
+
         var bottomWall = backgroundLayer.createEntity();
         bottomWall.pos = { x: 0, y: 574 };
         bottomWall.size = { width: 800, height: 26 };
@@ -56,7 +56,7 @@ document.onreadystatechange = function () {
             name: 'bottom-wall.png',
             size: bottomWall.size
         });
-        
+
         // Setup the controllable player entity.
         var player = new PixelJS.Player();
         player.addToLayer(playerLayer);
@@ -71,7 +71,7 @@ document.onreadystatechange = function () {
             name: 'player.png',
             size: player.size
         });
-        
+
         // Setup the computer player entity.
         var computer = playerLayer.createEntity();
         computer.pos = { x: 761, y: 263 };
@@ -82,7 +82,7 @@ document.onreadystatechange = function () {
             name: 'player.png',
             size: player.size
         });
-        
+
         // Setup the ball entity.
         var ball = playerLayer.createEntity();
         ball.pos = { x: 390, y: 280 };
@@ -93,18 +93,18 @@ document.onreadystatechange = function () {
             name: 'ball.png',
             size: ball.size
         });
-        
+
         // Register our entities that can collide with one another.
         backgroundLayer.registerCollidable(topWall);
         backgroundLayer.registerCollidable(bottomWall);
         playerLayer.registerCollidable(player);
         playerLayer.registerCollidable(ball);
         playerLayer.registerCollidable(computer);
-        
+
         // Setup the sound of the ball colliding with the wall and player.
         var ping = game.createSound('ping');
         ping.load({ name: 'ping.mp3' });
-        
+
         // Setup the callback when we detect the ball has collided with
         // another entity in the scene.
         ball.onCollide = function (collidable) {
@@ -121,39 +121,39 @@ document.onreadystatechange = function () {
                 ping.play();
             }
         };
-        
+
         // A helper function to set the redraw flag and update the scores.
         var updateScores = function () {
             scoreLayer.redraw = true;
             scoreLayer.drawText(
-                score.player, 
-                300, 
-                307, 
-                '60pt "Trebuchet MS", Helvetica, sans-serif', 
+                score.player,
+                300,
+                307,
+                '60pt "Trebuchet MS", Helvetica, sans-serif',
                 '#ff3155',
                 'center'
             );
             scoreLayer.drawText(
-                score.computer, 
-                495, 
-                307, 
-                '60pt "Trebuchet MS", Helvetica, sans-serif', 
+                score.computer,
+                495,
+                307,
+                '60pt "Trebuchet MS", Helvetica, sans-serif',
                 '#ff3155',
                 'center'
             );
         };
-        
+
         game.loadScene(function () {
             // Draw the initial score of 0-0 to the score layer.
             updateScores();
-            
+
             game.run(function (elapsedTime, dt) {
                 // Prevent the players going outside the bounds of the screen
                 player.canMoveDown = (player.pos.y + player.size.height) < 560;
                 player.canMoveUp = player.pos.y > 35;
                 computer.canMoveDown = (computer.pos.y + computer.size.height) < 560;
                 computer.canMoveUp = computer.pos.y > 35;
-                
+
                 // Move the ball in the appropriate direction
                 if (ballIsMovingLeft) {
                     ball.moveLeft();
@@ -167,7 +167,7 @@ document.onreadystatechange = function () {
                 else {
                     ball.moveUp();
                 }
-                
+
                 // Make our rather simple minded AI follow the ball
                 // once it is nearing their side of the scene.
                 if (!ballIsMovingLeft && ball.pos.x > 300) {
@@ -178,7 +178,7 @@ document.onreadystatechange = function () {
                         computer.moveDown();
                     }
                 }
-                
+
                 // If the ball goes off screen, increment the score
                 // of the appropriate player, set the redraw flag on
                 // the score layer, and reset the ball.
